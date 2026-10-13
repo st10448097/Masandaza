@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F7FB"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!--header-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MASANDAZA"
+            android:textColor="#1769AA"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cleaning Studio"
+            android:textColor="#555555"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hello, welcome back!"
+            android:textColor="#172B4D"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginTop="28dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="What would you like us to clean today?"
+            android:textColor="#172B4D"
+            android:textSize="15sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="22dp"/>
+
+        <!--Main booking card-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="#1769AA">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="A cleaner space starts here"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Book your next cleaning service in a few simple steps."
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="14dp"/>
+
+            <Button
+                android:id="@+id/btnBookNow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Book a Service"
+                android:textColor="#1769AA"
+                android:backgroundTint="#FFFFFF"/>
+
+        </LinearLayout>
+
+        <!--Services-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Our Services"
+            android:textColor="#172B4D"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/btnCouch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Couch Cleaning"/>
+
+        <Button
+            android:id="@+id/btnSneakers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sneaker Cleaning"/>
+
+        <Button
+            android:id="@+id/btnCarpet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Carpet Cleaning"/>
+
+        <Button
+            android:id="@+id/btnMyBookings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Bookings"/>
+
+        <Button
+            android:id="@+id/btnTrackBooking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Track My cleaning"/>
+
+        <Button
+            android:id="@+id/btnPayments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Payments and Receipts"/>
+
+        <!--Account shortcuts-->
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log Out"/>
+
+    </LinearLayout>
+
+</ScrollView>

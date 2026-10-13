@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Our Cleaning Services"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#1769AA"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose a service for your items."
+            android:textSize="15sp"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/btnCouch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Couch Cleaning"
+            android:backgroundTint="#1769AA"/>
+
+        <Button
+            android:id="@+id/btnSneakers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sneaker Cleaning"
+            android:backgroundTint="#1769AA"/>
+
+        <Button
+            android:id="@+id/btnCarpet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Carpet Cleaning"
+            android:backgroundTint="#1769AA"/>
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:layout_marginTop="24dp"/>
+
+
+    </LinearLayout>
+
+</ScrollView>

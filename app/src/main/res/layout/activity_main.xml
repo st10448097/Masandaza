@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="28dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MASANDAZA"
+            android:textColor="#1769AA"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cleaning Studio"
+            android:textColor="#555555"
+            android:textSize="20sp"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Professional &amp; Reliable Cleaning Services"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginBottom="40dp" />
+
+        <Button
+            android:id="@+id/btnGoServices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Services"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1769AA"
+            android:padding="14dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnGoLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log In"
+            android:padding="14dp"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnGoSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Profile &amp; Settings"
+            android:padding="14dp"
+            style="?attr/materialButtonOutlinedStyle" />
+
+    </LinearLayout>
+</ScrollView>
