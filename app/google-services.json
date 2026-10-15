@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "10956977239",
+    "project_id": "masandzaza-cleaning-studio",
+    "storage_bucket": "masandzaza-cleaning-studio.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10956977239:android:793510d58ba1e268639f12",
+        "android_client_info": {
+          "package_name": "com.example.masandaza"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA99ziiPPsBXvJv_u3Q-hQ7P9mopwJ-cJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
