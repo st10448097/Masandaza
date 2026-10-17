@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/brand_bg"
+    android:padding="20dp"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Booking Details"
+            android:textColor="@color/staff_green"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvDetailRef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BOOKING REF: --"
+            android:textColor="#64748B"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Service & Address Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="18dp"
+            android:elevation="2dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SERVICE DETAILS"
+                android:textSize="11sp"
+                android:textColor="#64748B"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvDetailService"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cleaning Service"
+                android:textColor="@color/brand_dark_slate"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginVertical="4dp"/>
+
+            <TextView
+                android:id="@+id/tvDetailDateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date &amp; Time"
+                android:textColor="#64748B"
+                android:textSize="13sp"
+                android:layout_marginBottom="14dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PICKUP / SERVICE ADDRESS"
+                android:textSize="11sp"
+                android:textColor="#64748B"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvDetailAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address details"
+                android:textColor="#334155"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAcceptJob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Accept Job"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/staff_green"
+            android:padding="14dp"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/btnGoUpdateStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Status"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="@color/staff_green"
+            android:textColor="@color/staff_green"
+            android:padding="14dp"/>
+
+    </LinearLayout>
+</ScrollView>

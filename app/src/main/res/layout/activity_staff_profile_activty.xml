@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/brand_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Emerald Green Staff Header Banner -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/staff_green"
+            android:padding="28dp">
+
+            <TextView
+                android:id="@+id/tvStaffProfileInitials"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/bg_rounded_input"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:text="TM"
+                android:textColor="@color/staff_green"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/tvStaffProfileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thabo Mokoena"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvStaffProfileIdSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Staff ID: TM-2025-001"
+                android:textColor="@color/staff_green_light"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PERSONAL DETAILS"
+                android:textSize="11sp"
+                android:textColor="#64748B"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FULL NAME"
+                android:textSize="11sp"
+                android:textColor="#64748B"
+                android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/etStaffProfileName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Full Name"
+                android:padding="14dp"
+                android:background="@drawable/bg_rounded_input"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="14dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EMAIL ADDRESS"
+                android:textSize="11sp"
+                android:textColor="#64748B"
+                android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/etStaffProfileEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:padding="14dp"
+                android:background="@drawable/bg_rounded_input"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="14dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PHONE NUMBER"
+                android:textSize="11sp"
+                android:textColor="#64748B"
+                android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/etStaffProfilePhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone Number"
+                android:inputType="phone"
+                android:padding="14dp"
+                android:background="@drawable/bg_rounded_input"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="24dp"/>
+
+            <Button
+                android:id="@+id/btnSaveStaffProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Changes"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/staff_green"
+                android:padding="14dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <Button
+                android:id="@+id/btnStaffLogoutAction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log Out"
+                android:textColor="@color/brand_crimson_red"
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeColor="@color/brand_crimson_red"
+                android:padding="14dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
