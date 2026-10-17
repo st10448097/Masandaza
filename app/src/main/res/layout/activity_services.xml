@@ -1,60 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@color/brand_bg"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="20dp">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Our Cleaning Services"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:textColor="#1769AA"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="@color/brand_royal_blue"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select a service to book your cleaning session."
+            android:textColor="#64748B"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Couch Card -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choose a service for your items."
-            android:textSize="15sp"
-            android:layout_marginBottom="20dp"/>
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="18dp"
+            android:elevation="2dp"
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btnCouch"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Couch Cleaning"
+                    android:textColor="@color/brand_dark"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="R 450.00"
+                    android:textColor="@color/brand_royal_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deep fabric washing, stain removal, and odor elimination."
+                android:textColor="#64748B"
+                android:textSize="13sp"
+                android:layout_marginVertical="10dp" />
+
+            <Button
+                android:id="@+id/btnCouch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Book Couch Cleaning"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/brand_royal_blue"
+                app:icon="@drawable/ic_cleaning"
+                app:iconTint="@color/white" />
+        </LinearLayout>
+
+        <!-- Sneaker Card -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Couch Cleaning"
-            android:backgroundTint="#1769AA"/>
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="18dp"
+            android:elevation="2dp"
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btnSneakers"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sneaker Cleaning"
+                    android:textColor="@color/brand_dark"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="R 150.00"
+                    android:textColor="@color/brand_royal_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Premium footwear care: soles, uppers, and lace detailing."
+                android:textColor="#64748B"
+                android:textSize="13sp"
+                android:layout_marginVertical="10dp" />
+
+            <Button
+                android:id="@+id/btnSneakers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Book Sneaker Cleaning"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/brand_royal_blue"
+                app:icon="@drawable/ic_cleaning"
+                app:iconTint="@color/white" />
+        </LinearLayout>
+
+        <!-- Carpet Card -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sneaker Cleaning"
-            android:backgroundTint="#1769AA"/>
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="18dp"
+            android:elevation="2dp"
+            android:layout_marginBottom="24dp">
 
-        <Button
-            android:id="@+id/btnCarpet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Carpet Cleaning"
-            android:backgroundTint="#1769AA"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Carpet Cleaning"
+                    android:textColor="@color/brand_dark"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="R 350.00"
+                    android:textColor="@color/brand_royal_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
-        <Button
-            android:id="@+id/btnSettings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            android:layout_marginTop="24dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="High-pressure carpet steaming and deep fiber extraction."
+                android:textColor="#64748B"
+                android:textSize="13sp"
+                android:layout_marginVertical="10dp" />
 
+            <Button
+                android:id="@+id/btnCarpet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Book Carpet Cleaning"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/brand_royal_blue"
+                app:icon="@drawable/ic_cleaning"
+                app:iconTint="@color/white" />
+        </LinearLayout>
 
     </LinearLayout>
-
 </ScrollView>

@@ -1,69 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#FFFFFF">
+    android:background="@color/brand_bg"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:padding="28dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Top Red Accent Banner with Logo -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MASANDAZA"
-            android:textColor="#1769AA"
-            android:textSize="32sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/brand_crimson_red"
+            android:padding="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="28dp">
+
+            <!-- Logo Placeholder (Set your image file as res/drawable/logo.png) -->
+            <ImageView
+                android:id="@+id/imgMainLogo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/logo"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MASANDAZA"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cleaning &amp; Carpets Studio"
+                android:textColor="@color/brand_light_blue"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cleaning Studio"
-            android:textColor="#555555"
-            android:textSize="20sp"
-            android:layout_marginBottom="16dp" />
+            android:text="Professional Cleaning Services"
+            android:textColor="@color/brand_dark_slate"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="6dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Professional &amp; Reliable Cleaning Services"
-            android:textColor="#666666"
+            android:text="Quality couch, carpet, and interior deep cleaning solutions tailored for your space."
+            android:textColor="#64748B"
             android:textSize="14sp"
             android:gravity="center"
-            android:layout_marginBottom="40dp" />
+            android:layout_marginBottom="36dp"/>
 
         <Button
-            android:id="@+id/btnGoServices"
+            android:id="@+id/btnMainViewServices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View Services"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#1769AA"
+            android:text="View Services Catalog"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/brand_royal_blue"
             android:padding="14dp"
-            android:layout_marginBottom="12dp" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"/>
 
         <Button
-            android:id="@+id/btnGoLogin"
+            android:id="@+id/btnMainLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log In"
+            android:text="Log In to Account"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/brand_crimson_red"
             android:padding="14dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/btnMainRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create New Account"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btnGoSettings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Profile &amp; Settings"
+            app:strokeColor="@color/brand_royal_blue"
+            app:strokeWidth="1.5dp"
+            android:textColor="@color/brand_royal_blue"
             android:padding="14dp"
-            style="?attr/materialButtonOutlinedStyle" />
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 </ScrollView>
