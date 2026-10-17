@@ -1,147 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F7FB"
+    android:background="@color/brand_bg"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical">
 
-        <!--header-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MASANDAZA"
-            android:textColor="#1769AA"
-            android:textSize="14sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cleaning Studio"
-            android:textColor="#555555"
-            android:textSize="13sp"/>
-
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello, welcome back!"
-            android:textColor="#172B4D"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_marginTop="28dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="What would you like us to clean today?"
-            android:textColor="#172B4D"
-            android:textSize="15sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="22dp"/>
-
-        <!--Main booking card-->
+        <!-- Top Blue Header Banner -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:background="#1769AA">
+            android:background="@color/brand_royal_blue"
+            android:padding="24dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A cleaner space starts here"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:text="Good day 👋"
+                android:textColor="@color/brand_light_blue"
+                android:textSize="14sp"/>
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/tvCustomerName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Book your next cleaning service in a few simple steps."
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="14dp"/>
+                android:text="Loading account..."
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginVertical="4dp"/>
 
-            <Button
-                android:id="@+id/btnBookNow"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Book a Service"
-                android:textColor="#1769AA"
-                android:backgroundTint="#FFFFFF"/>
-
+                android:text="Masandaza Cleaning &amp; Carpets Studio"
+                android:textColor="@color/brand_light_blue"
+                android:textSize="12sp"/>
         </LinearLayout>
 
-        <!--Services-->
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Our Services"
-            android:textColor="#172B4D"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="26dp"
-            android:layout_marginBottom="12dp"/>
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <Button
-            android:id="@+id/btnCouch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Couch Cleaning"/>
+            <!-- 4 Grid Action Cards (From image_9.png) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
 
-        <Button
-            android:id="@+id/btnSneakers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sneaker Cleaning"/>
+                <Button
+                    android:id="@+id/btnNavBook"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:text="Book\nCleaning"
+                    android:textColor="@color/brand_royal_blue"
+                    android:backgroundTint="@color/white"
+                    app:strokeColor="@color/brand_royal_blue"
+                    app:strokeWidth="1dp"/>
 
-        <Button
-            android:id="@+id/btnCarpet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Carpet Cleaning"/>
+                <Button
+                    android:id="@+id/btnNavMyBookings"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:text="My\nBookings"
+                    android:textColor="@color/brand_royal_blue"
+                    android:backgroundTint="@color/white"
+                    app:strokeColor="@color/brand_royal_blue"
+                    app:strokeWidth="1dp"/>
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/btnMyBookings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My Bookings"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
 
-        <Button
-            android:id="@+id/btnTrackBooking"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Track My cleaning"/>
+                <Button
+                    android:id="@+id/btnNavTrack"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:text="Track\nBooking"
+                    android:textColor="@color/brand_royal_blue"
+                    android:backgroundTint="@color/white"
+                    app:strokeColor="@color/brand_royal_blue"
+                    app:strokeWidth="1dp"/>
 
-        <Button
-            android:id="@+id/btnPayments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Payments and Receipts"/>
+                <Button
+                    android:id="@+id/btnNavPayments"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:text="Payments &amp;\nReceipts"
+                    android:textColor="@color/brand_royal_blue"
+                    android:backgroundTint="@color/white"
+                    app:strokeColor="@color/brand_royal_blue"
+                    app:strokeWidth="1dp"/>
+            </LinearLayout>
 
-        <!--Account shortcuts-->
-        <Button
-            android:id="@+id/btnSettings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            android:layout_marginTop="16dp"/>
+            <!-- Next Appointment Active Card -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NEXT APPOINTMENT"
+                android:textSize="11sp"
+                android:textColor="#64748B"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
 
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Log Out"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/brand_royal_blue"
+                android:padding="18dp"
+                android:layout_marginBottom="24dp">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvDashActiveTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No Active Appointment"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tvDashActiveBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="None"
+                        android:textColor="@color/white"
+                        android:background="@color/brand_crimson_red"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
+                        android:textSize="11sp"
+                        android:textStyle="bold"/>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tvDashActiveDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap 'Book Cleaning' to schedule your session."
+                    android:textColor="@color/brand_light_blue"
+                    android:textSize="13sp"
+                    android:layout_marginTop="6dp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnDashSettingsNav"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Settings &amp; Profile"
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeColor="@color/brand_royal_blue"
+                android:textColor="@color/brand_royal_blue"
+                android:padding="12dp"/>
+
+        </LinearLayout>
     </LinearLayout>
-
 </ScrollView>

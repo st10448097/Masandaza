@@ -1,90 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#FFFFFF">
+    android:background="@color/brand_bg"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
         android:padding="28dp">
+
+        <!-- Top Header Banner with Crimson Red & Logo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/brand_crimson_red"
+            android:padding="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/logo"
+                android:scaleType="fitCenter"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MASANDAZA"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cleaning &amp; Carpets Studio"
+                    android:textColor="@color/brand_light_blue"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MASANDAZA"
-            android:textColor="#1769AA"
-            android:textSize="28sp"
+            android:text="Welcome back"
+            android:textColor="@color/brand_dark_slate"
+            android:textSize="26sp"
             android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cleaning Studio"
-            android:textSize="18sp"
-            android:textColor="#555555"
-            android:layout_marginBottom="32dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Welcome back"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:textColor="#222222"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Log in to manage your cleaning bookings."
+            android:text="Sign in to continue"
+            android:textColor="#64748B"
             android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="2dp"
             android:layout_marginBottom="24dp"/>
 
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email address"
-            android:inputType="textEmailAddress"
-            android:autofillHints="emailAddress"
-            android:padding="14dp"
-            android:layout_marginBottom="14dp"/>
-
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:autofillHints="password"
-            android:padding="14dp"
-            android:layout_marginBottom="22dp"/>
-
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Log In"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#1769AA"/>
-
         <TextView
-            android:id="@+id/tvRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have an account? Register"
-            android:textColor="#1769AA"
-            android:padding="16dp"
-            android:layout_marginTop="12dp"/>
+            android:text="EMAIL / USERNAME"
+            android:textSize="11sp"
+            android:textColor="#64748B"
+            android:textStyle="bold"/>
 
+        <EditText
+            android:id="@+id/etLoginEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="name@email.com"
+            android:inputType="textEmailAddress"
+            android:padding="14dp"
+            android:background="@drawable/bg_rounded_input"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="16dp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PASSWORD"
+            android:textSize="11sp"
+            android:textColor="#64748B"
+            android:textStyle="bold"/>
 
+        <EditText
+            android:id="@+id/etLoginPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="••••••••"
+            android:inputType="textPassword"
+            android:padding="14dp"
+            android:background="@drawable/bg_rounded_input"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Primary Button in Crimson Red -->
+        <Button
+            android:id="@+id/btnLoginSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/brand_crimson_red"
+            android:padding="14dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="28dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New customer? "
+                android:textColor="#64748B"/>
+
+            <TextView
+                android:id="@+id/tvGoToRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register here"
+                android:textColor="@color/brand_crimson_red"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
     </LinearLayout>
-
 </ScrollView>
