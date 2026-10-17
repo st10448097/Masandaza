@@ -1,72 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="18dp"
+    android:elevation="2dp"
+    android:layout_marginBottom="16dp">
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvBookingServiceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Couch Deep Clean"
+            android:textColor="@color/brand_dark"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvBookingStatusBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Booked"
+            android:textColor="@color/brand_royal_blue"
+            android:background="@color/brand_light_blue"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvBookingReference"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#BK-2025-0042"
+        android:textColor="#64748B"
+        android:textSize="13sp"
+        android:layout_marginVertical="4dp"/>
+
+    <TextView
+        android:id="@+id/tvBookingDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2025-08-15 • 09:00 AM"
+        android:textColor="#334155"
+        android:textSize="13sp"
+        android:layout_marginBottom="14dp"/>
+
+    <Button
+        android:id="@+id/btnTrackBooking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:text="Track Progress"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/brand_royal_blue"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Book a Cleaning Service"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:textColor="#1769AA"
-            android:layout_marginBottom="20dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Selected service"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/tvSelectedService"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="No Service Selected"
-            android:padding="12dp"
-            android:layout_marginBottom="12dp"/>
-
-        <EditText
-            android:id="@+id/etBookingDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Select date (YYYY-MM-DD)"
-            android:focusable="false"
-            android:clickable="true"
-            android:inputType="none"/>
-
-        <EditText
-            android:id="@+id/etBookingTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Select Time"
-            android:focusable="false"
-            android:clickable="true"
-            android:inputType="none"/>
-
-        <EditText
-            android:id="@+id/etItemDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Describe the item being cleaned"
-            android:gravity="top"
-            android:minLines="3"
-            android:inputType="textCapSentences|textMultiLine"/>
-
-        <Button
-            android:id="@+id/btnConfirmBooking"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Confirm Booking"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#1769AA"/>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
