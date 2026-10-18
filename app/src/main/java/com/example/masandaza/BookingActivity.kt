@@ -1,95 +1,80 @@
 package com.example.masandaza
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import java.util.Calendar
-import java.util.Locale
+import com.example.masandaza.utils.FirebaseRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.example.masandaza.models.Booking
 
 class BookingActivity : AppCompatActivity() {
+
+    private val auth = FirebaseAuth.getInstance()
+    private val firebaseRepo = FirebaseRepository()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_booking)
-        BottomNavigationHelper.attach(this,"Bookings")
 
+        val serviceName = intent.getStringExtra("service") ?: "Cleaning Service"
+        val servicePrice = intent.getDoubleExtra("price", 450.0)
 
-        val serviceText = findViewById<TextView>(R.id.tvSelectedService)
-        val dateInput = findViewById<EditText>(R.id.etBookingDate)
-        val timeInput = findViewById<EditText>(R.id.etBookingTime)
-        val detailsInput = findViewById<EditText>(R.id.etItemDetails)
-        val confirmButton = findViewById<Button>(R.id.btnConfirmBooking)
+        val etService = findViewById<EditText>(R.id.etBookingService)
+        val etAddress = findViewById<EditText>(R.id.etBookingAddress)
+        val etDate = findViewById<EditText>(R.id.etBookingDate)
+        val etTime = findViewById<EditText>(R.id.etBookingTime)
+        val etNotes = findViewById<EditText>(R.id.etBookingNotes)
+        val btnConfirm = findViewById<Button>(R.id.btnConfirmBooking)
 
-        serviceText.text = intent.getStringExtra("service")
-            ?: "Please select a service"
+        etService.setText(serviceName)
 
-        dateInput.setOnClickListener {
-            val today = Calendar.getInstance()
+        btnConfirm.setOnClickListener {
+            val address = etAddress.text.toString().trim()
+            val date = etDate.text.toString().trim()
+            val time = etTime.text.toString().trim()
+            val notes = etNotes.text.toString().trim()
 
-            DatePickerDialog(
-                this,
-                { _, year, month, day ->
-                    dateInput.setText(
-                        String.format(
-                            Locale.US, "%04d-%02d-%02d",
-                            year, month + 1, day
-                        )
-                    )
-                },
-                today.get(Calendar.YEAR),
-                today.get(Calendar.MONTH),
-                today.get(Calendar.DAY_OF_MONTH)
-            ).apply {
-                datePicker.minDate = System.currentTimeMillis()
-            }.show()
-        }
-
-        timeInput.setOnClickListener {
-            val now = Calendar.getInstance()
-
-            TimePickerDialog(
-                this,
-                { _, hour, minute ->
-                    timeInput.setText(
-                        String.format(
-                            Locale.getDefault(),
-                            "%02d:%02d", hour, minute
-                        )
-                    )
-                },
-                now.get(Calendar.HOUR_OF_DAY),
-                now.get(Calendar.MINUTE),
-                true
-            ).show()
-        }
-
-        confirmButton.setOnClickListener {
-            when {
-                dateInput.text.isBlank() -> {
-                    dateInput.error = "Please select a date"
-                    dateInput.requestFocus()
-                }
-
-                timeInput.text.isBlank() -> {
-                    timeInput.error = "Please select a time"
-                    timeInput.requestFocus()
-                }
-
-                detailsInput.text.isBlank() -> {
-                    detailsInput.error = "Describe your item"
-                    detailsInput.requestFocus()
-                }
-
-                else -> Toast.makeText(
-                    this,
-                    "Booking details validated. Connect booking storage next.",
-                    Toast.LENGTH_SHORT
-                ).show()
+            if (address.isBlank() || date.isBlank() || time.isBlank()) {
+                Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            btnConfirm.isEnabled = false
+            btnConfirm.text = "Processing..."
+
+            val userId = auth.currentUser?.uid ?: "guest_user"
+            val bookingRef = "BK-" + (1000..9999).random()
+
+            val newBooking = Booking(
+                bookingId = bookingRef,
+                customerId = userId,
+                serviceName = serviceName,
+                serviceAddress = "$address (Notes: $notes)",
+                preferredDate = date,
+                preferredTime = time,
+                totalAmount = servicePrice,
+                status = "Booked"
+            )
+
+            firebaseRepo.createBooking(newBooking,
+                onSuccess = {
+                    Toast.makeText(this, "Booking.kt Successful!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, PaymentActivity::class.java).apply {
+                        putExtra("bookingId", bookingRef)
+                        putExtra("totalAmount", servicePrice)
+                    }
+                    startActivity(intent)
+                    finish()
+                },
+                onFailure = { e ->
+                    btnConfirm.isEnabled = true
+                    btnConfirm.text = "Confirm & Pay"
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            )
         }
     }
 }

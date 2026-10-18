@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/brand_bg"
+    android:padding="20dp"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Job Status"
+            android:textColor="@color/staff_green"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SELECT NEW STATUS"
+            android:textSize="11sp"
+            android:textColor="#64748B"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgStaffStatusGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="16dp"
+            android:elevation="2dp"
+            android:layout_marginBottom="24dp">
+
+            <RadioButton
+                android:id="@+id/rbStsReceived"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Booking Received"
+                android:padding="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rbStsAssigned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Staff Assigned"
+                android:padding="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rbStsCleaning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cleaning In Progress"
+                android:padding="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rbStsReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ready for Review"
+                android:padding="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rbStsCompleted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Completed"
+                android:padding="10dp"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnSaveStaffStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Status"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/staff_green"
+            android:padding="14dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -12,6 +12,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Masandaza">
         <activity
+            android:name=".PaymentSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StaffProfileActivty"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateJobStatusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StaffJobDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StaffDashboradActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity_splash"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -32,23 +53,18 @@
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
-
-        <activity android:name=".DasboardActivity"
-            android:exported="false"/>
-
+        <activity
+            android:name=".DasboardActivity"
+            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".BookingsActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".TrackBookingActivity"
-            android:exported="false"/>
-
-
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -8,12 +8,20 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.masandaza.models.User
+import com.example.masandaza.utils.FirebaseRepository
+import com.google.firebase.auth.FirebaseAuth
 
 class RegisterActivity : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
+    private val firebaseRepo = FirebaseRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        auth = FirebaseAuth.getInstance()
 
         val name = findViewById<EditText>(R.id.etFullName)
         val email = findViewById<EditText>(R.id.etRegisterEmail)
@@ -33,42 +41,56 @@ class RegisterActivity : AppCompatActivity() {
                     name.error = "Enter your full name"
                     name.requestFocus()
                 }
-
                 !Patterns.EMAIL_ADDRESS.matcher(emailText).matches() -> {
-                    email.error = "Enter a valid email address"
+                    email.error = "Enter a valid email"
                     email.requestFocus()
                 }
-
-                phoneText.filter { it.isDigit() }.length < 10 -> {
-                    phone.error = "Enter a valid phone number"
+                phoneText.length < 10 -> {
+                    phone.error = "Enter valid phone number"
                     phone.requestFocus()
                 }
-
-                passwordText.length < 8 -> {
-                    password.error = "Use at least 8 characters"
+                passwordText.length < 6 -> {
+                    password.error = "Minimum 6 characters"
                     password.requestFocus()
                 }
-
                 passwordText != confirmText -> {
                     confirm.error = "Passwords do not match"
                     confirm.requestFocus()
                 }
-
                 else -> {
-                    Toast.makeText(
-                        this,
-                        "Registration details validated.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
+                    auth.createUserWithEmailAndPassword(emailText, passwordText)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val currentUserId = auth.currentUser?.uid ?: ""
+                                val newUser = User(
+                                    userId = currentUserId,
+                                    fullName = fullName,
+                                    email = emailText,
+                                    phoneNumber = phoneText,
+                                    role = "customer"
+                                )
+
+                                firebaseRepo.saveUser(newUser,
+                                    onSuccess = {
+                                        Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT).show()
+                                        startActivity(Intent(this, LoginActivity::class.java))
+                                        finish()
+                                    },
+                                    onFailure = { e ->
+                                        Toast.makeText(this, "Firestore error: ${e.message}", Toast.LENGTH_LONG).show()
+                                    }
+                                )
+                            } else {
+                                Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                            }
+                        }
                 }
             }
         }
 
         findViewById<TextView>(R.id.tvGoToLogin).setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
     }
 }
+

@@ -115,7 +115,7 @@ class StaffDashboardActivity : AppCompatActivity() {
                 }
         }
 
-        btnAllJobs.setOnClickListener { startActivity(Intent(this, StaffJobsListActivity::class.java)) }
+        btnAllJobs.setOnClickListener { startActivity(Intent(this, StaffJobDetailsActivity::class.java)) }
         btnProfile.setOnClickListener { startActivity(Intent(this, StaffProfileActivity::class.java)) }
     }
 }

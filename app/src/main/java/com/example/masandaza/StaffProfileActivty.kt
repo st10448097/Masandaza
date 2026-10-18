@@ -17,7 +17,7 @@ class StaffProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_staff_profile)
+        setContentView(R.layout.activity_staff_profile_activty)
 
         val tvInitials = findViewById<TextView>(R.id.tvStaffProfileInitials)
         val tvNameHeader = findViewById<TextView>(R.id.tvStaffProfileName)

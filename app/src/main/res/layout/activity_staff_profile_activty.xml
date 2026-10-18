@@ -131,7 +131,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnStaffLogoutAction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

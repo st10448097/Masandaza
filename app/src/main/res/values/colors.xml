@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="brand_royal_blue">#1769AA</color>
+    <color name="brand_light_blue">#E3F2FD</color>
+    <color name="brand_red">#B71C1C</color>
+    <color name="brand_dark">#172B4D</color>
+    <color name="brand_bg">#F8FAFC</color>
+    <color name="white">#FFFFFF</color>
+
+        <color name="brand_dark_slate">#1A2530</color>
+        <color name="brand_crimson_red">#C0392B</color>
+
+
 </resources>

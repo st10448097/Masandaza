@@ -1,78 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F7FB"
+    android:background="@color/brand_bg"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="20dp">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Track Booking"
+            android:textColor="@color/brand_royal_blue"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- Status Highlight Card -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Track My Cleaning"
-            android:textSize="27sp"
+            android:orientation="vertical"
+            android:background="@color/brand_light_blue"
+            android:padding="18dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTrackBookingRef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#BK-2025-0000"
+                    android:textColor="@color/brand_dark_slate"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTrackStatusBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="Booked"
+                    android:textColor="@color/white"
+                    android:background="@color/brand_royal_blue"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvTrackServiceDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Service: Cleaning Session"
+                android:textColor="@color/brand_dark_slate"
+                android:textSize="14sp"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
+
+        <!-- Status Timeline (From image_7.png) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STATUS TIMELINE"
+            android:textSize="11sp"
+            android:textColor="#64748B"
             android:textStyle="bold"
-            android:textColor="#1769AA"/>
+            android:layout_marginBottom="10dp"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Follow the progress of your cleaning order"
-            android:textColor="#667085"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"/>
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="20dp"
+            android:elevation="2dp"
+            android:layout_marginBottom="20dp">
 
-        <TextView
+            <TextView
+                android:id="@+id/step1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. Booking Received"
+                android:textSize="15sp"
+                android:textColor="#94A3B8"
+                android:paddingVertical="8dp"/>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" />
+
+            <TextView
+                android:id="@+id/step2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2. Staff Member Assigned"
+                android:textSize="15sp"
+                android:textColor="#94A3B8"
+                android:paddingVertical="8dp"/>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" />
+
+            <TextView
+                android:id="@+id/step3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3. Cleaning In Progress"
+                android:textSize="15sp"
+                android:textColor="#94A3B8"
+                android:paddingVertical="8dp"/>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" />
+
+            <TextView
+                android:id="@+id/step4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4. Service Completed"
+                android:textSize="15sp"
+                android:textColor="#94A3B8"
+                android:paddingVertical="8dp"/>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCallStaff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. Booked"
-            android:textStyle="bold"
-            android:textColor="#1769AA"
-            android:textSize="18sp"
-            android:padding="12dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2. Received"
-            android:padding="12dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="3. Cleaning"
-            android:padding="12dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="4. Quality Check"
-            android:padding="12dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="5. Ready for Collection"
-            android:padding="12dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="6. Collected"
-            android:padding="12dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="The current status will update when connected to the booking system"
-            android:textColor="#667085"
-            android:layout_marginTop="20dp"/>
+            android:text="Call Studio Support"
+            android:textColor="@color/brand_royal_blue"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="@color/brand_royal_blue"/>
 
     </LinearLayout>
-
 </ScrollView>
+

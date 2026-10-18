@@ -67,7 +67,7 @@
                 android:textSize="13sp"
                 android:layout_marginVertical="10dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCouch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                 android:textSize="13sp"
                 android:layout_marginVertical="10dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSneakers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
                 android:textSize="13sp"
                 android:layout_marginVertical="10dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCarpet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
