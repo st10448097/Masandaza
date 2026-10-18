@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Exclude splash layout
+app/src/main/res/layout/activity_splash.xml
