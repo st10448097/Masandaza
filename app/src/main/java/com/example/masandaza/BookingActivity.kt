@@ -42,6 +42,7 @@ class BookingActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Disable button to prevent double-clicking
             btnConfirm.isEnabled = false
             btnConfirm.text = "Processing..."
 
@@ -59,15 +60,18 @@ class BookingActivity : AppCompatActivity() {
                 status = "Booked"
             )
 
+            // Save to Firebase
             firebaseRepo.createBooking(newBooking,
                 onSuccess = {
-                    Toast.makeText(this, "Booking.kt Successful!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Booking Successful!", Toast.LENGTH_SHORT).show()
+
+                    // Move to Payment Screen
                     val intent = Intent(this, PaymentActivity::class.java).apply {
                         putExtra("bookingId", bookingRef)
                         putExtra("totalAmount", servicePrice)
                     }
                     startActivity(intent)
-                    finish()
+                    finish() // Closes BookingActivity so user can't press back to it
                 },
                 onFailure = { e ->
                     btnConfirm.isEnabled = true
