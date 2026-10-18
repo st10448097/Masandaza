@@ -57,7 +57,7 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="12dp">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnNavBook"
                     android:layout_width="0dp"
                     android:layout_height="70dp"
@@ -69,7 +69,7 @@
                     app:strokeColor="@color/brand_royal_blue"
                     app:strokeWidth="1dp"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnNavMyBookings"
                     android:layout_width="0dp"
                     android:layout_height="70dp"
@@ -88,7 +88,7 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="24dp">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnNavTrack"
                     android:layout_width="0dp"
                     android:layout_height="70dp"
@@ -100,7 +100,7 @@
                     app:strokeColor="@color/brand_royal_blue"
                     app:strokeWidth="1dp"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnNavPayments"
                     android:layout_width="0dp"
                     android:layout_height="70dp"
@@ -168,7 +168,7 @@
                     android:layout_marginTop="6dp"/>
             </LinearLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDashSettingsNav"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
