@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Good morning ☀️"
+                android:text="Good day☀️"
                 android:textColor="@color/staff_green_light"
                 android:textSize="13sp"/>
 
