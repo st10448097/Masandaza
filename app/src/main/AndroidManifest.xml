@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!--Requesting internet access permission-->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +17,7 @@
             android:name=".PaymentSuccessActivity"
             android:exported="false" />
         <activity
-            android:name=".StaffProfileActivty"
+            android:name=".StaffProfileActivity"
             android:exported="false" />
         <activity
             android:name=".UpdateJobStatusActivity"
@@ -24,14 +26,12 @@
             android:name=".StaffJobDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".StaffDashboradActivity"
+            android:name=".StaffDashboardActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
             android:exported="false" />
-        <activity
-            android:name=".activity_splash"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

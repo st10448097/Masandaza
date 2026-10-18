@@ -37,6 +37,8 @@
             android:background="@drawable/bg_rounded_input"
             android:textColor="@color/brand_dark_slate"
             android:textStyle="bold"
+            android:inputType="text"
+            android:hint="Enter service name"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"/>
 
