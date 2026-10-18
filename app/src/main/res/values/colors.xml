@@ -7,8 +7,9 @@
     <color name="brand_bg">#F8FAFC</color>
     <color name="white">#FFFFFF</color>
 
-        <color name="brand_dark_slate">#1A2530</color>
-        <color name="brand_crimson_red">#C0392B</color>
+    <color name="brand_dark_slate">#1A2530</color>
+    <color name="brand_crimson_red">#C0392B</color>
 
-
+    <color name="staff_green">#15803D</color>
+    <color name="staff_green_light">#DCFCE7</color>
 </resources>
