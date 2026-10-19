@@ -1,183 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/brand_bg"
-    android:fillViewport="true">
+    android:background="#F8FAFC">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!-- Top Blue Header Banner -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/brand_royal_blue"
-            android:padding="24dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Good day 👋"
-                android:textColor="@color/brand_light_blue"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/tvCustomerName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Loading account..."
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_marginVertical="4dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Masandaza Cleaning &amp; Carpets Studio"
-                android:textColor="@color/brand_light_blue"
-                android:textSize="12sp"/>
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavContainer"
+        android:clipToPadding="false"
+        android:paddingBottom="90dp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:orientation="vertical">
 
-            <!-- 4 Grid Action Cards (From image_9.png) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="12dp">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNavBook"
-                    android:layout_width="0dp"
-                    android:layout_height="70dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="6dp"
-                    android:text="Book\nCleaning"
-                    android:textColor="@color/brand_royal_blue"
-                    android:backgroundTint="@color/white"
-                    app:strokeColor="@color/brand_royal_blue"
-                    app:strokeWidth="1dp"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNavMyBookings"
-                    android:layout_width="0dp"
-                    android:layout_height="70dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="6dp"
-                    android:text="My\nBookings"
-                    android:textColor="@color/brand_royal_blue"
-                    android:backgroundTint="@color/white"
-                    app:strokeColor="@color/brand_royal_blue"
-                    app:strokeWidth="1dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="24dp">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNavTrack"
-                    android:layout_width="0dp"
-                    android:layout_height="70dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="6dp"
-                    android:text="Track\nBooking"
-                    android:textColor="@color/brand_royal_blue"
-                    android:backgroundTint="@color/white"
-                    app:strokeColor="@color/brand_royal_blue"
-                    app:strokeWidth="1dp"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNavPayments"
-                    android:layout_width="0dp"
-                    android:layout_height="70dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="6dp"
-                    android:text="Payments &amp;\nReceipts"
-                    android:textColor="@color/brand_royal_blue"
-                    android:backgroundTint="@color/white"
-                    app:strokeColor="@color/brand_royal_blue"
-                    app:strokeWidth="1dp"/>
-            </LinearLayout>
-
-            <!-- Next Appointment Active Card -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NEXT APPOINTMENT"
-                android:textSize="11sp"
-                android:textColor="#64748B"
-                android:textStyle="bold"
-                android:layout_marginBottom="10dp"/>
-
+            <!-- Premium Blue Header Banner -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/brand_royal_blue"
-                android:padding="18dp"
-                android:layout_marginBottom="24dp">
+                android:background="#1E3A8A"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="32dp"
+                android:paddingBottom="40dp">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="6dp">
 
                     <TextView
-                        android:id="@+id/tvDashActiveTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="No Active Appointment"
-                        android:textColor="@color/white"
-                        android:textSize="17sp"
-                        android:textStyle="bold"/>
+                        android:text="Good day 👋"
+                        android:textColor="#93C5FD"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvDashActiveBadge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="None"
-                        android:textColor="@color/white"
-                        android:background="@color/brand_crimson_red"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="4dp"
-                        android:textSize="11sp"
-                        android:textStyle="bold"/>
-                </RelativeLayout>
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:background="#DC2626"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tvDashActiveDetails"
+                    android:id="@+id/tvCustomerWelcomeName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tap 'Book Cleaning' to schedule your session."
-                    android:textColor="@color/brand_light_blue"
-                    android:textSize="13sp"
-                    android:layout_marginTop="6dp"/>
+                    android:text="Welcome Back"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Masandaza Cleaning &amp; Carpets Studio"
+                    android:textColor="#E2E8F0"
+                    android:textSize="12sp"
+                    android:layout_marginTop="2dp" />
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDashSettingsNav"
+            <!-- Quick Action Cards Grid Container -->
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Settings &amp; Profile"
-                style="?attr/materialButtonOutlinedStyle"
-                app:strokeColor="@color/brand_royal_blue"
-                android:textColor="@color/brand_royal_blue"
-                android:padding="12dp"/>
+                android:columnCount="2"
+                android:rowCount="2"
+                android:alignmentMode="alignMargins"
+                android:columnOrderPreserved="false"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="-24dp">
 
+                <!-- Card 1: Book Cleaning -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardBookCleaning"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="6dp"
+                    android:elevation="4dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    xmlns:app="http://schemas.android.com/apk/res-auto">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🧹"
+                            android:textSize="24sp"
+                            android:layout_marginBottom="4dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Book Cleaning"
+                            android:textColor="#0F172A"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Card 2: My Bookings -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardMyBookings"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="6dp"
+                    android:elevation="4dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    xmlns:app="http://schemas.android.com/apk/res-auto">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📋"
+                            android:textSize="24sp"
+                            android:layout_marginBottom="4dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="My Bookings"
+                            android:textColor="#0F172A"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Card 3: Track Booking -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardTrackBooking"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="6dp"
+                    android:elevation="4dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    xmlns:app="http://schemas.android.com/apk/res-auto">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📍"
+                            android:textSize="24sp"
+                            android:layout_marginBottom="4dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Track Booking"
+                            android:textColor="#0F172A"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Card 4: Payments -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardPayments"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="6dp"
+                    android:elevation="4dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    xmlns:app="http://schemas.android.com/apk/res-auto">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="💳"
+                            android:textSize="24sp"
+                            android:layout_marginBottom="4dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Payments"
+                            android:textColor="#0F172A"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </GridLayout>
+
+            <!-- Next Appointment Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="22dp"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NEXT APPOINTMENT"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textColor="#64748B"
+                    android:letterSpacing="0.08"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#2563EB"
+                    android:padding="20dp"
+                    android:elevation="3dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="6dp">
+
+                        <TextView
+                            android:id="@+id/tvDashboardNextService"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="No Active Appointment"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvDashboardStatusBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="None"
+                            android:textColor="#DC2626"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:background="#FEE2E2"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="3dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvDashboardAppointmentDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tap 'Book Cleaning' to schedule your session."
+                        android:textColor="#E2E8F0"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+    <!-- Bottom Navigation Bar Container -->
+    <FrameLayout
+        android:id="@+id/bottomNavContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <include layout="@layout/view_customer_bottom_nav" />
+    </FrameLayout>
+</RelativeLayout>

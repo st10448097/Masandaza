@@ -2,88 +2,120 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/brand_bg"
-    android:padding="20dp"
+    android:background="#F8FAFC"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="40dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Update Job Status"
-            android:textColor="@color/staff_green"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SELECT NEW STATUS"
-            android:textSize="11sp"
-            android:textColor="#64748B"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="12dp"/>
-
-        <RadioGroup
-            android:id="@+id/rgStaffStatusGroup"
+        <!-- Bold Red Header Bar -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="16dp"
-            android:elevation="2dp"
-            android:layout_marginBottom="24dp">
+            android:orientation="vertical"
+            android:background="#DC2626"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="28dp"
+            android:paddingBottom="24dp">
 
-            <RadioButton
-                android:id="@+id/rbStsReceived"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Booking Received"
-                android:padding="10dp"/>
+                android:text="Update Job Status"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
-            <RadioButton
-                android:id="@+id/rbStsAssigned"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Staff Assigned"
-                android:padding="10dp"/>
+                android:text="Select new progress stage for this booking"
+                android:textColor="#FEE2E2"
+                android:textSize="12sp"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
 
-            <RadioButton
-                android:id="@+id/rbStsCleaning"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Cleaning In Progress"
-                android:padding="10dp"/>
-
-            <RadioButton
-                android:id="@+id/rbStsReview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ready for Review"
-                android:padding="10dp"/>
-
-            <RadioButton
-                android:id="@+id/rbStsCompleted"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Completed"
-                android:padding="10dp"/>
-        </RadioGroup>
-
-        <Button
-            android:id="@+id/btnSaveStaffStatus"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update Status"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/staff_green"
-            android:padding="14dp"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:orientation="vertical"
+            android:padding="20dp">
 
+            <RadioGroup
+                android:id="@+id/rgStatusOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
+
+                <RadioButton
+                    android:id="@+id/rbStatusPending"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pending"
+                    android:padding="16dp"
+                    android:textSize="16sp"
+                    android:textColor="#0F172A"
+                    android:background="#FFFFFF"
+                    android:layout_marginBottom="8dp" />
+
+                <RadioButton
+                    android:id="@+id/rbStatusAssigned"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Staff Assigned"
+                    android:padding="16dp"
+                    android:textSize="16sp"
+                    android:textColor="#0F172A"
+                    android:background="#FFFFFF"
+                    android:layout_marginBottom="8dp" />
+
+                <RadioButton
+                    android:id="@+id/rbStatusInProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cleaning In Progress"
+                    android:padding="16dp"
+                    android:textSize="16sp"
+                    android:textColor="#0F172A"
+                    android:background="#FFFFFF"
+                    android:layout_marginBottom="8dp" />
+
+                <RadioButton
+                    android:id="@+id/rbStatusReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ready for Review"
+                    android:padding="16dp"
+                    android:textSize="16sp"
+                    android:textColor="#0F172A"
+                    android:background="#FFFFFF"
+                    android:layout_marginBottom="8dp" />
+
+                <RadioButton
+                    android:id="@+id/rbStatusCompleted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Completed"
+                    android:padding="16dp"
+                    android:textSize="16sp"
+                    android:textColor="#0F172A"
+                    android:background="#FFFFFF" />
+            </RadioGroup>
+
+            <!-- Save Button in Blue -->
+            <Button
+                android:id="@+id/btnSubmitStatusUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Save New Status"
+                android:backgroundTint="#2563EB"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

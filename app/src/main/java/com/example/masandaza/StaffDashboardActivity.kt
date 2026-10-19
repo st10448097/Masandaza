@@ -1,122 +1,144 @@
 package com.example.masandaza
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class StaffDashboardActivity : AppCompatActivity() {
 
-    private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
-    private lateinit var scheduleContainer: LinearLayout
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_staff_dashboard)
 
-        val tvName = findViewById<TextView>(R.id.tvStaffNameHeader)
-        val tvIdBadge = findViewById<TextView>(R.id.tvStaffIdBadge)
-        val tvToday = findViewById<TextView>(R.id.tvCountToday)
-        val tvPending = findViewById<TextView>(R.id.tvCountPending)
-        val tvCompleted = findViewById<TextView>(R.id.tvCountCompleted)
+        val tvStaffName = findViewById<TextView>(R.id.tvStaffProfileName)
+        val tvTotalJobs = findViewById<TextView>(R.id.tvTotalJobsCount)
+        val tvPendingJobs = findViewById<TextView>(R.id.tvPendingJobsCount)
+        val tvCompletedJobs = findViewById<TextView>(R.id.tvCompletedJobsCount)
+        val recyclerView = findViewById<RecyclerView>(R.id.rvStaffJobsList)
+        val tvEmpty = findViewById<TextView>(R.id.tvNoJobsEmptyState)
 
-        scheduleContainer = findViewById(R.id.containerStaffSchedule)
-        val btnAllJobs = findViewById<Button>(R.id.btnViewAllJobsNav)
-        val btnProfile = findViewById<Button>(R.id.btnStaffProfileNav)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val uid = auth.currentUser?.uid
-
-        if (uid != null) {
-            db.collection("users").document(uid).get()
-                .addOnSuccessListener { doc ->
-                    if (doc.exists()) {
-                        val name = doc.getString("fullName") ?: "Staff Member"
-                        tvName.text = name
-                        tvIdBadge.text = "ID: STF-" + uid.take(5).uppercase()
-                    }
-                }
-
-            // Real-time listener for all bookings in Firestore
-            db.collection("bookings")
-                .addSnapshotListener { query, _ ->
-                    if (query != null) {
-                        scheduleContainer.removeAllViews()
-
-                        var total = query.size()
-                        var pending = 0
-                        var completed = 0
-
-                        for (doc in query.documents) {
-                            val status = doc.getString("status") ?: "Booked"
-                            if (status == "Completed") {
-                                completed++
-                            } else {
-                                pending++
-                            }
-                        }
-
-                        tvToday.text = total.toString()
-                        tvPending.text = pending.toString()
-                        tvCompleted.text = completed.toString()
-
-                        if (query.isEmpty) {
-                            val emptyTv = TextView(this).apply {
-                                text = "No active jobs assigned yet."
-                                textSize = 13f
-                                setTextColor(Color.GRAY)
-                                setPadding(0, 20, 0, 20)
-                            }
-                            scheduleContainer.addView(emptyTv)
-                        } else {
-                            for (doc in query.documents) {
-                                val bookingId = doc.id
-                                val service = doc.getString("serviceName") ?: "Cleaning"
-                                val status = doc.getString("status") ?: "Booked"
-                                val date = doc.getString("preferredDate") ?: "Today"
-                                val time = doc.getString("preferredTime") ?: "09:00 AM"
-                                val address = doc.getString("serviceAddress") ?: "Address on record"
-
-                                val card = LayoutInflater.from(this).inflate(R.layout.item_staff_job_card, scheduleContainer, false)
-                                val tvServ = card.findViewById<TextView>(R.id.itemTvService)
-                                val tvStat = card.findViewById<TextView>(R.id.itemTvStatus)
-                                val tvCust = card.findViewById<TextView>(R.id.itemTvCustomerDate)
-                                val btnDetails = card.findViewById<Button>(R.id.itemBtnDetails)
-                                val btnUpdate = card.findViewById<Button>(R.id.itemBtnUpdate)
-
-                                tvServ.text = service
-                                tvStat.text = status
-                                tvCust.text = "$date • $time\n$address"
-
-                                btnDetails.setOnClickListener {
-                                    val intent = Intent(this, StaffJobDetailsActivity::class.java).apply {
-                                        putExtra("bookingId", bookingId)
-                                    }
-                                    startActivity(intent)
-                                }
-
-                                btnUpdate.setOnClickListener {
-                                    val intent = Intent(this, UpdateJobStatusActivity::class.java).apply {
-                                        putExtra("bookingId", bookingId)
-                                    }
-                                    startActivity(intent)
-                                }
-
-                                scheduleContainer.addView(card)
-                            }
-                        }
-                    }
-                }
+        findViewById<Button>(R.id.navBtnDashboard).setOnClickListener { /* Already here */ }
+        findViewById<Button>(R.id.navBtnJobs).setOnClickListener {
+            val intent = Intent(this, StaffJobsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+            finish()
+        }
+        findViewById<Button>(R.id.navBtnProfile).setOnClickListener {
+            val intent = Intent(this, StaffProfileActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+            finish()
         }
 
-        btnAllJobs.setOnClickListener { startActivity(Intent(this, StaffJobDetailsActivity::class.java)) }
-        btnProfile.setOnClickListener { startActivity(Intent(this, StaffProfileActivity::class.java)) }
+        val user = auth.currentUser
+        if (user != null) {
+            db.collection("users").document(user.uid).get().addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    tvStaffName.text = doc.getString("fullName") ?: "System Admin"
+                }
+            }
+        }
+
+        db.collection("bookings").addSnapshotListener { snapshot, e ->
+            if (e != null) return@addSnapshotListener
+
+            if (snapshot != null && !snapshot.isEmpty) {
+                tvEmpty.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+
+                val jobList = mutableListOf<BookingModel>()
+                var pending = 0
+                var completed = 0
+
+                for (doc in snapshot.documents) {
+                    val id = doc.id
+                    val service = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Service"
+                    val client = doc.getString("fullName") ?: doc.getString("customerName") ?: "Client"
+                    val date = doc.getString("preferredDate") ?: doc.getString("date") ?: "Today"
+                    val status = doc.getString("status") ?: "Pending"
+                    val address = doc.getString("serviceAddress") ?: doc.getString("address") ?: "Address on record"
+
+                    jobList.add(BookingModel(id, service, client, date, status, address))
+
+                    if (status.equals("Pending", true) || status.equals("Staff Assigned", true)) {
+                        pending++
+                    } else if (status.equals("Completed", true)) {
+                        completed++
+                    }
+                }
+
+                tvTotalJobs.text = jobList.size.toString()
+                tvPendingJobs.text = pending.toString()
+                tvCompletedJobs.text = completed.toString()
+
+                recyclerView.adapter = StaffJobsAdapter(jobList) { bookingId ->
+                    val intent = Intent(this, StaffJobDetailsActivity::class.java)
+                    intent.putExtra("bookingId", bookingId)
+                    startActivity(intent)
+                }
+            } else {
+                tvEmpty.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+                tvTotalJobs.text = "0"
+                tvPendingJobs.text = "0"
+                tvCompletedJobs.text = "0"
+            }
+        }
     }
 }
 
+data class BookingModel(
+    val id: String,
+    val serviceName: String,
+    val clientName: String,
+    val date: String,
+    val status: String,
+    val address: String
+)
+
+class StaffJobsAdapter(
+    private val list: List<BookingModel>,
+    private val onClick: (String) -> Unit
+) : RecyclerView.Adapter<StaffJobsAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvService: TextView = view.findViewById(R.id.tvItemService)
+        val tvClient: TextView = view.findViewById(R.id.tvItemClient)
+        val tvStatus: TextView = view.findViewById(R.id.tvItemStatus)
+        val btnDetails: Button = view.findViewById(R.id.btnItemDetails)
+        val btnUpdate: Button = view.findViewById(R.id.btnItemUpdateStatus)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_staff_job_figma, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = list[position]
+        holder.tvService.text = item.serviceName
+        holder.tvClient.text = item.clientName
+        holder.tvStatus.text = item.status
+
+        holder.btnDetails.setOnClickListener { onClick(item.id) }
+        holder.btnUpdate.setOnClickListener { onClick(item.id) }
+        holder.itemView.setOnClickListener { onClick(item.id) }
+    }
+
+    override fun getItemCount() = list.size
+}

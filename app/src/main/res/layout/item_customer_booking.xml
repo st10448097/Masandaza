@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="18dp"
+    android:layout_marginBottom="14dp"
+    android:elevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:id="@+id/tvItemBookingService"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Deep Clean"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#0F172A" />
+
+        <TextView
+            android:id="@+id/tvItemBookingStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pending"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="#D97706"
+            android:background="#FEF3C7"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvItemBookingRef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REF: #BK-2025-0000"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:textColor="#2563EB"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tvItemBookingDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📅 15 Aug 2025 - 09:00 AM"
+        android:textSize="13sp"
+        android:textColor="#475569"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvItemBookingAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📍 Service Address details"
+        android:textSize="12sp"
+        android:textColor="#64748B" />
+</LinearLayout>

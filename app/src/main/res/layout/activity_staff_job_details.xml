@@ -1,110 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/brand_bg"
-    android:padding="20dp"
+    android:background="#F8FAFC"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="40dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Booking Details"
-            android:textColor="@color/staff_green"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/tvDetailRef"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BOOKING REF: --"
-            android:textColor="#64748B"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Service & Address Card -->
+        <!-- Bold Red Header Bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/white"
-            android:padding="18dp"
-            android:elevation="2dp"
-            android:layout_marginBottom="20dp">
+            android:background="#DC2626"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="28dp"
+            android:paddingBottom="24dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SERVICE DETAILS"
+                android:text="Job Execution Details"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDetailRef"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BOOKING REF: --"
+                android:textColor="#FEE2E2"
                 android:textSize="11sp"
-                android:textColor="#64748B"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/tvDetailService"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cleaning Service"
-                android:textColor="@color/brand_dark_slate"
-                android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginVertical="4dp"/>
-
-            <TextView
-                android:id="@+id/tvDetailDateTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date &amp; Time"
-                android:textColor="#64748B"
-                android:textSize="13sp"
-                android:layout_marginBottom="14dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PICKUP / SERVICE ADDRESS"
-                android:textSize="11sp"
-                android:textColor="#64748B"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/tvDetailAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Address details"
-                android:textColor="#334155"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp"/>
+                android:letterSpacing="0.06"
+                android:layout_marginTop="4dp" />
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAcceptJob"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Accept Job"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/staff_green"
-            android:padding="14dp"
-            android:layout_marginBottom="12dp"/>
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnGoUpdateStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Update Status"
-            style="?attr/materialButtonOutlinedStyle"
-            app:strokeColor="@color/staff_green"
-            android:textColor="@color/staff_green"
-            android:padding="14dp"/>
+            <!-- Customer Card with Color Accent -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:padding="20dp"
+                android:layout_marginBottom="16dp"
+                android:elevation="2dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CUSTOMER INFORMATION"
+                    android:textSize="11sp"
+                    android:textColor="#DC2626"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvDetailClientName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Customer Name"
+                    android:textColor="#0F172A"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Service & Address Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:padding="20dp"
+                android:elevation="2dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ASSIGNED SERVICE DETAILS"
+                    android:textSize="11sp"
+                    android:textColor="#DC2626"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06"
+                    android:layout_marginBottom="6dp" />
+
+                <TextView
+                    android:id="@+id/tvDetailService"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cleaning Service"
+                    android:textColor="#0F172A"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvDetailDateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📅 Scheduled Date &amp; Time"
+                    android:textColor="#475569"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="18dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E2E8F0"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SERVICE LOCATION ADDRESS"
+                    android:textSize="11sp"
+                    android:textColor="#DC2626"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.06"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/tvDetailAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address details"
+                    android:textColor="#1E293B"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <!-- Action Buttons: Accept Job (Red) & Update Status (Blue) -->
+            <Button
+                android:id="@+id/btnAcceptJob"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Accept Job"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#DC2626"
+                android:layout_marginBottom="12dp"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnGoUpdateStatus"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Update Job Status"
+                android:backgroundTint="#2563EB"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

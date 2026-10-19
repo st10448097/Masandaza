@@ -12,21 +12,21 @@
         android:orientation="vertical"
         android:padding="28dp">
 
-        <!-- Top Header Banner with Crimson Red & Logo -->
+        <!-- Top Header Card in Brand Blue with img_logo and Heading -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:background="@color/brand_crimson_red"
+            android:background="@color/brand_blue"
             android:padding="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="28dp">
 
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/logo"
+                android:src="@drawable/img_logo"
                 android:scaleType="fitCenter"/>
 
             <LinearLayout
@@ -41,7 +41,8 @@
                     android:text="MASANDAZA"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -52,11 +53,12 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Welcome Section ("Welcome back" in Crimson Red) -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome back"
-            android:textColor="@color/brand_dark_slate"
+            android:textColor="@color/brand_crimson_red"
             android:textSize="26sp"
             android:textStyle="bold"/>
 
@@ -69,6 +71,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="24dp"/>
 
+        <!-- Email Field -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,12 +85,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="name@email.com"
+            android:textColor="@color/black"
+            android:textColorHint="#94A3B8"
             android:inputType="textEmailAddress"
             android:padding="14dp"
             android:background="@drawable/bg_rounded_input"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="16dp"/>
 
+        <!-- Password Field -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,13 +107,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="••••••••"
+            android:textColor="@color/black"
+            android:textColorHint="#94A3B8"
             android:inputType="textPassword"
             android:padding="14dp"
-            android:background="@drawable/img_logo"
+            android:background="@drawable/bg_rounded_input"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="24dp"/>
 
-        <!-- Primary Button in Crimson Red -->
+        <!-- Login Button in Crimson Red -->
         <Button
             android:id="@+id/btnLoginSubmit"
             android:layout_width="match_parent"
@@ -120,6 +128,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="28dp"/>
 
+        <!-- Register Footer Link -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -137,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Register here"
-                android:textColor="@color/brand_crimson_red"
+                android:textColor="@color/brand_blue"
                 android:textStyle="bold"/>
         </LinearLayout>
 

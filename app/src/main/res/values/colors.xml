@@ -6,6 +6,8 @@
     <color name="brand_dark">#172B4D</color>
     <color name="brand_bg">#F8FAFC</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="brand_blue">#1769AA</color>
 
     <color name="brand_dark_slate">#1A2530</color>
     <color name="brand_crimson_red">#C0392B</color>

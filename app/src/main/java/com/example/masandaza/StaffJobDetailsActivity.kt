@@ -16,43 +16,45 @@ class StaffJobDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_staff_job_details)
 
-        val bookingId = intent.getStringExtra("bookingId") ?: ""
+        val bookingId = intent.getStringExtra("bookingId") ?: return
 
         val tvRef = findViewById<TextView>(R.id.tvDetailRef)
+        val tvClientName = findViewById<TextView>(R.id.tvDetailClientName)
         val tvService = findViewById<TextView>(R.id.tvDetailService)
         val tvDateTime = findViewById<TextView>(R.id.tvDetailDateTime)
         val tvAddress = findViewById<TextView>(R.id.tvDetailAddress)
-
         val btnAccept = findViewById<Button>(R.id.btnAcceptJob)
-        val btnUpdate = findViewById<Button>(R.id.btnGoUpdateStatus)
+        val btnUpdateStatus = findViewById<Button>(R.id.btnGoUpdateStatus)
 
-        if (bookingId.isNotBlank()) {
-            db.collection("bookings").document(bookingId).get()
-                .addOnSuccessListener { doc ->
-                    if (doc.exists()) {
-                        val ref = doc.getString("bookingId") ?: doc.id
-                        tvRef.text = "BOOKING REF: #$ref"
-                        tvService.text = doc.getString("serviceName") ?: "Cleaning"
-                        tvDateTime.text = "Scheduled: " + (doc.getString("preferredDate") ?: "") + " at " + (doc.getString("preferredTime") ?: "")
-                        tvAddress.text = doc.getString("serviceAddress") ?: "No address provided"
-                    }
+        // Fetch live booking details from Firestore
+        db.collection("bookings").document(bookingId).get().addOnSuccessListener { doc ->
+            if (doc.exists()) {
+                tvRef.text = "BOOKING REF: #BK-${doc.id.take(8).uppercase()}"
+                tvClientName.text = doc.getString("fullName") ?: doc.getString("customerName") ?: "Client"
+                tvService.text = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Service"
+                tvDateTime.text = "📅 ${doc.getString("preferredDate") ?: doc.getString("date") ?: "Today"} at ${doc.getString("preferredTime") ?: doc.getString("time") ?: "Standard Time"}"
+                tvAddress.text = doc.getString("serviceAddress") ?: doc.getString("address") ?: "Address on record"
+            }
+        }
+
+        // Accept Job Button (Updates status to Staff Assigned)
+        btnAccept.setOnClickListener {
+            db.collection("bookings").document(bookingId)
+                .update("status", "Staff Assigned")
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Job accepted successfully!", Toast.LENGTH_SHORT).show()
+                    btnAccept.text = "Accepted"
+                    btnAccept.isEnabled = false
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         }
 
-        btnAccept.setOnClickListener {
-            if (bookingId.isNotBlank()) {
-                db.collection("bookings").document(bookingId)
-                    .update("status", "Staff Assigned")
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Job Accepted & Status Updated!", Toast.LENGTH_SHORT).show()
-                    }
-            }
-        }
-
-        btnUpdate.setOnClickListener {
-            val intent = Intent(this, UpdateJobStatusActivity::class.java).apply {
-                putExtra("bookingId", bookingId)
-            }
+        // Navigate to Update Status Screen
+        btnUpdateStatus.setOnClickListener {
+            val intent = Intent(this, UpdateJobStatusActivity::class.java)
+            intent.putExtra("bookingId", bookingId)
             startActivity(intent)
         }
     }

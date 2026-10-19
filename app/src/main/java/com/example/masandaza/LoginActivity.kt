@@ -38,18 +38,34 @@ class LoginActivity : AppCompatActivity() {
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener { result ->
-                    val uid = result.user?.uid ?: ""
+                    val firebaseUser = result.user
+                    val userEmail = firebaseUser?.email ?: email
 
-                    // Direct to Customer vs Staff depending on role in Firestore
+                    // EMERGENCY OVERRIDE: Force staff dashboard for admin email immediately
+                    if (userEmail.lowercase() == "admin@masandaza.com") {
+                        val intent = Intent(this, StaffDashboardActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        return@addOnSuccessListener
+                    }
+
+                    // Standard Firestore check for other users
+                    val uid = firebaseUser?.uid ?: ""
                     db.collection("users").document(uid).get()
                         .addOnSuccessListener { doc ->
-                            val role = doc.getString("role") ?: "customer"
-                            if (role == "staff") {
-                                startActivity(Intent(this, StaffDashboardActivity::class.java))
+                            if (doc.exists()) {
+                                val role = doc.getString("role")?.lowercase() ?: "customer"
+
+                                if (role == "staff" || role == "admin") {
+                                    startActivity(Intent(this, StaffDashboardActivity::class.java))
+                                } else {
+                                    startActivity(Intent(this, DasboardActivity::class.java))
+                                }
+                                finish()
                             } else {
                                 startActivity(Intent(this, DasboardActivity::class.java))
+                                finish()
                             }
-                            finish()
                         }
                         .addOnFailureListener {
                             startActivity(Intent(this, DasboardActivity::class.java))
@@ -68,4 +84,3 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 }
-

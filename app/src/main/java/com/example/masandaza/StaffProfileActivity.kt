@@ -4,9 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
+import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -19,65 +20,57 @@ class StaffProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_staff_profile_activty)
 
-        val tvInitials = findViewById<TextView>(R.id.tvStaffProfileInitials)
-        val tvNameHeader = findViewById<TextView>(R.id.tvStaffProfileName)
-        val tvIdSub = findViewById<TextView>(R.id.tvStaffProfileIdSub)
-
         val etName = findViewById<EditText>(R.id.etStaffProfileName)
-        val etEmail = findViewById<EditText>(R.id.etStaffProfileEmail)
         val etPhone = findViewById<EditText>(R.id.etStaffProfilePhone)
-
         val btnSave = findViewById<Button>(R.id.btnSaveStaffProfile)
         val btnLogout = findViewById<Button>(R.id.btnStaffLogoutAction)
+        val switchDarkMode = findViewById<Switch>(R.id.switchDarkMode)
 
-        val currentUid = auth.currentUser?.uid
-        val userEmail = auth.currentUser?.email ?: ""
+        // Bottom Nav setup
+        findViewById<Button>(R.id.navBtnDashboard).setOnClickListener {
+            val intent = Intent(this, StaffDashboardActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+            finish()
+        }
+        findViewById<Button>(R.id.navBtnJobs).setOnClickListener {
+            val intent = Intent(this, StaffDashboardActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+            finish()
+        }
+        findViewById<Button>(R.id.navBtnProfile).setTextColor(0xFF2563EB.toInt())
 
-        if (currentUid != null) {
-            etEmail.setText(userEmail)
+        // Dark Mode Toggle
+        val isDarkModeOn = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        switchDarkMode.isChecked = isDarkModeOn
 
-            db.collection("users").document(currentUid).get()
-                .addOnSuccessListener { doc ->
-                    if (doc.exists()) {
-                        val fullName = doc.getString("fullName") ?: "Staff Member"
-                        val phone = doc.getString("phone") ?: ""
+        switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
-                        etName.setText(fullName)
-                        etPhone.setText(phone)
-                        tvNameHeader.text = fullName
-                        tvIdSub.text = "Staff ID: STF-" + currentUid.take(5).uppercase()
-
-                        val parts = fullName.trim().split(" ")
-                        val initials = when {
-                            parts.size >= 2 -> "${parts[0].firstOrNull() ?: ""}${parts[1].firstOrNull() ?: ""}"
-                            parts.size == 1 -> "${parts[0].firstOrNull() ?: ""}"
-                            else -> "ST"
-                        }.uppercase()
-                        tvInitials.text = initials
-                    }
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            db.collection("users").document(userId).get().addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    etName.setText(doc.getString("fullName") ?: "")
+                    etPhone.setText(doc.getString("phoneNumber") ?: "")
                 }
+            }
         }
 
         btnSave.setOnClickListener {
-            val updatedName = etName.text.toString().trim()
-            val updatedPhone = etPhone.text.toString().trim()
+            val name = etName.text.toString().trim()
+            val phone = etPhone.text.toString().trim()
 
-            if (currentUid != null && updatedName.isNotEmpty()) {
-                btnSave.isEnabled = false
-                btnSave.text = "Saving..."
-
-                db.collection("users").document(currentUid)
-                    .update(mapOf("fullName" to updatedName, "phone" to updatedPhone))
+            if (userId != null) {
+                db.collection("users").document(userId).update(mapOf("fullName" to name, "phoneNumber" to phone))
                     .addOnSuccessListener {
-                        btnSave.isEnabled = true
-                        btnSave.text = "Save Changes"
-                        tvNameHeader.text = updatedName
-                        Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnFailureListener { e ->
-                        btnSave.isEnabled = true
-                        btnSave.text = "Save Changes"
-                        Toast.makeText(this, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show()
                     }
             }
         }

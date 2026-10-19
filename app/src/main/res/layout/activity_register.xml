@@ -11,12 +11,13 @@
         android:orientation="vertical"
         android:padding="28dp">
 
+        <!-- Back to Login Link in Crimson Red -->
         <TextView
             android:id="@+id/tvGoToLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="‹ Back to Login"
-            android:textColor="@color/brand_royal_blue"
+            android:textColor="@color/brand_crimson_red"
             android:textStyle="bold"
             android:layout_marginBottom="20dp"/>
 
@@ -37,6 +38,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="24dp"/>
 
+        <!-- FULL NAME -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,10 +51,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Sarah Dlamini"
+            android:textColor="@color/black"
+            android:textColorHint="#94A3B8"
+            android:inputType="textPersonName"
             android:padding="14dp"
             android:background="@drawable/bg_rounded_input"
+            android:layout_marginTop="6dp"
             android:layout_marginBottom="16dp"/>
 
+        <!-- EMAIL ADDRESS -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,11 +72,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="sarah@email.com"
+            android:textColor="@color/black"
+            android:textColorHint="#94A3B8"
             android:inputType="textEmailAddress"
             android:padding="14dp"
             android:background="@drawable/bg_rounded_input"
+            android:layout_marginTop="6dp"
             android:layout_marginBottom="16dp"/>
 
+        <!-- PHONE NUMBER -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,11 +93,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="071 234 5678"
+            android:textColor="@color/black"
+            android:textColorHint="#94A3B8"
             android:inputType="phone"
             android:padding="14dp"
             android:background="@drawable/bg_rounded_input"
+            android:layout_marginTop="6dp"
             android:layout_marginBottom="16dp"/>
 
+        <!-- PASSWORD -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,11 +114,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="••••••••"
+            android:textColor="@color/black"
+            android:textColorHint="#94A3B8"
             android:inputType="textPassword"
             android:padding="14dp"
             android:background="@drawable/bg_rounded_input"
+            android:layout_marginTop="6dp"
             android:layout_marginBottom="16dp"/>
 
+        <!-- CONFIRM PASSWORD -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,11 +135,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="••••••••"
+            android:textColor="@color/black"
+            android:textColorHint="#94A3B8"
             android:inputType="textPassword"
             android:padding="14dp"
             android:background="@drawable/bg_rounded_input"
+            android:layout_marginTop="6dp"
             android:layout_marginBottom="24dp"/>
 
+        <!-- Create Account Button in Blue -->
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"

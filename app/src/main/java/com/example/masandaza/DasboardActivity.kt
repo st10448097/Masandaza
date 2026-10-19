@@ -1,8 +1,8 @@
-
 package com.example.masandaza
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,16 +18,19 @@ class DasboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        val tvName = findViewById<TextView>(R.id.tvCustomerName)
-        val tvActiveTitle = findViewById<TextView>(R.id.tvDashActiveTitle)
-        val tvActiveBadge = findViewById<TextView>(R.id.tvDashActiveBadge)
-        val tvActiveDetails = findViewById<TextView>(R.id.tvDashActiveDetails)
+        val tvName = findViewById<TextView>(R.id.tvCustomerWelcomeName)
+        val tvActiveTitle = findViewById<TextView>(R.id.tvDashboardNextService)
+        val tvActiveBadge = findViewById<TextView>(R.id.tvDashboardStatusBadge)
+        val tvActiveDetails = findViewById<TextView>(R.id.tvDashboardAppointmentDetails)
 
-        val btnBook = findViewById<Button>(R.id.btnNavBook)
-        val btnMyBookings = findViewById<Button>(R.id.btnNavMyBookings)
-        val btnTrack = findViewById<Button>(R.id.btnNavTrack)
-        val btnPayments = findViewById<Button>(R.id.btnNavPayments)
-        val btnSettings = findViewById<Button>(R.id.btnDashSettingsNav)
+        val cardBook = findViewById<View>(R.id.cardBookCleaning)
+        val cardMyBookings = findViewById<View>(R.id.cardMyBookings)
+        val cardTrack = findViewById<View>(R.id.cardTrackBooking)
+        val cardPayments = findViewById<View>(R.id.cardPayments)
+
+        val btnNavBook = findViewById<Button>(R.id.navBtnBook)
+        val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
+        val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
 
         val uid = auth.currentUser?.uid
 
@@ -37,9 +40,9 @@ class DasboardActivity : AppCompatActivity() {
                 .addOnSuccessListener { doc ->
                     if (doc.exists()) {
                         val fullName = doc.getString("fullName") ?: ""
-                        tvName.text = fullName.ifBlank { auth.currentUser?.email ?: "Valued Client" }
+                        tvName.text = if (fullName.isNotBlank()) "Welcome Back, $fullName" else auth.currentUser?.email ?: "Welcome Back"
                     } else {
-                        tvName.text = auth.currentUser?.email ?: "Valued Client"
+                        tvName.text = auth.currentUser?.email ?: "Welcome Back"
                     }
                 }
 
@@ -65,10 +68,13 @@ class DasboardActivity : AppCompatActivity() {
                 }
         }
 
-        btnBook.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
-        btnMyBookings.setOnClickListener { startActivity(Intent(this, BookingsActivity::class.java)) }
-        btnTrack.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
-        btnPayments.setOnClickListener { startActivity(Intent(this, PaymentActivity::class.java)) }
-        btnSettings.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
+        cardBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
+        cardMyBookings?.setOnClickListener { startActivity(Intent(this, BookingsActivity::class.java)) }
+        cardTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
+        cardPayments?.setOnClickListener { startActivity(Intent(this, PaymentActivity::class.java)) }
+
+        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
+        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
+        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     }
 }

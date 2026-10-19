@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8FAFC">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavContainer"
+        android:clipToPadding="false"
+        android:paddingBottom="90dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Bold Red Admin Header Bar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#DC2626"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="28dp"
+                android:paddingBottom="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My Jobs"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accepted jobs assigned for execution"
+                    android:textColor="#FEE2E2"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Search Bar -->
+                <EditText
+                    android:id="@+id/etStaffJobSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:background="@drawable/bg_rounded_input"
+                    android:hint="🔍 Search accepted jobs..."
+                    android:textColor="#0F172A"
+                    android:textColorHint="#94A3B8"
+                    android:textSize="13sp"
+                    android:paddingHorizontal="16dp"
+                    android:layout_marginBottom="14dp" />
+
+                <!-- Filter Pills Row -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/filterBtnAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="All"
+                            android:textColor="#FFFFFF"
+                            android:backgroundTint="#DC2626"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:layout_marginEnd="8dp" />
+
+                        <Button
+                            android:id="@+id/filterBtnAssigned"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="Assigned"
+                            android:textColor="#0F172A"
+                            android:backgroundTint="#E2E8F0"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:layout_marginEnd="8dp" />
+
+                        <Button
+                            android:id="@+id/filterBtnInProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="In Progress"
+                            android:textColor="#0F172A"
+                            android:backgroundTint="#E2E8F0"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:layout_marginEnd="8dp" />
+
+                        <Button
+                            android:id="@+id/filterBtnCompleted"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="Completed"
+                            android:textColor="#0F172A"
+                            android:backgroundTint="#E2E8F0"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <!-- Live RecyclerView List for Accepted Jobs Only -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvStaffMyJobsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_staff_job_figma" />
+
+                <!-- Clean Empty State (Shows when no jobs have been accepted yet) -->
+                <TextView
+                    android:id="@+id/tvNoMyJobsEmpty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No accepted jobs yet. Accept a booking from your dashboard to see it listed here."
+                    android:gravity="center"
+                    android:textColor="#94A3B8"
+                    android:textSize="14sp"
+                    android:padding="50dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation Bar Container -->
+    <FrameLayout
+        android:id="@+id/bottomNavContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <include layout="@layout/view_staff_bottom_nav" />
+    </FrameLayout>
+</RelativeLayout>

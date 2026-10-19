@@ -2,7 +2,7 @@ package com.example.masandaza
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.RadioGroup
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,34 +15,46 @@ class UpdateJobStatusActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_job_status)
 
-        val bookingId = intent.getStringExtra("bookingId") ?: ""
-        val rgGroup = findViewById<RadioGroup>(R.id.rgStaffStatusGroup)
-        val btnSave = findViewById<Button>(R.id.btnSaveStaffStatus)
+        val bookingId = intent.getStringExtra("bookingId") ?: return
+
+        val rbPending = findViewById<RadioButton>(R.id.rbStatusPending)
+        val rbAssigned = findViewById<RadioButton>(R.id.rbStatusAssigned)
+        val rbInProgress = findViewById<RadioButton>(R.id.rbStatusInProgress)
+        val rbReview = findViewById<RadioButton>(R.id.rbStatusReview)
+        val rbCompleted = findViewById<RadioButton>(R.id.rbStatusCompleted)
+        val btnSave = findViewById<Button>(R.id.btnSubmitStatusUpdate)
+
+        // Fetch current status to pre-select radio button
+        db.collection("bookings").document(bookingId).get().addOnSuccessListener { doc ->
+            val currentStatus = doc.getString("status") ?: "Pending"
+            when {
+                currentStatus.equals("Pending", true) -> rbPending.isChecked = true
+                currentStatus.equals("Staff Assigned", true) -> rbAssigned.isChecked = true
+                currentStatus.equals("Cleaning In Progress", true) -> rbInProgress.isChecked = true
+                currentStatus.equals("Ready for Review", true) -> rbReview.isChecked = true
+                currentStatus.equals("Completed", true) -> rbCompleted.isChecked = true
+            }
+        }
 
         btnSave.setOnClickListener {
-            val selectedId = rgGroup.checkedRadioButtonId
-            val newStatus = when (selectedId) {
-                R.id.rbStsReceived -> "Received"
-                R.id.rbStsAssigned -> "Staff Assigned"
-                R.id.rbStsCleaning -> "Cleaning"
-                R.id.rbStsReview -> "Quality Check"
-                R.id.rbStsCompleted -> "Completed"
-                else -> "Booked"
+            val newStatus = when {
+                rbPending.isChecked -> "Pending"
+                rbAssigned.isChecked -> "Staff Assigned"
+                rbInProgress.isChecked -> "Cleaning In Progress"
+                rbReview.isChecked -> "Ready for Review"
+                rbCompleted.isChecked -> "Completed"
+                else -> "Pending"
             }
 
-            if (bookingId.isNotBlank()) {
-                btnSave.isEnabled = false
-                db.collection("bookings").document(bookingId)
-                    .update("status", newStatus)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Status updated to $newStatus!", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-                    .addOnFailureListener {
-                        btnSave.isEnabled = true
-                        Toast.makeText(this, "Update failed", Toast.LENGTH_SHORT).show()
-                    }
-            }
+            db.collection("bookings").document(bookingId)
+                .update("status", newStatus)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Status updated to $newStatus!", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 }

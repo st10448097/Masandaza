@@ -21,10 +21,17 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Apply dark mode preference BEFORE setting content view so it doesn't lag/glitch
+        prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        val isDarkMode = prefs.getBoolean("dark_mode", false)
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
 
         val tvInitials = findViewById<TextView>(R.id.tvSettingsInitials)
         val tvNameHeader = findViewById<TextView>(R.id.tvSettingsProfileName)
@@ -37,8 +44,7 @@ class SettingsActivity : AppCompatActivity() {
         val btnResetPass = findViewById<Button>(R.id.btnChangePassword)
         val btnLogout = findViewById<Button>(R.id.btnSettingsLogout)
 
-        // 1. Dark Mode Persistence & Toggle
-        val isDarkMode = prefs.getBoolean("dark_mode", false)
+        // Set switch state matching saved preference
         switchDark.isChecked = isDarkMode
 
         switchDark.setOnCheckedChangeListener { _, isChecked ->
@@ -50,7 +56,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        // 2. Fetch User Profile Data from Firestore
+        // Fetch User Profile Data from Firestore
         val currentUserId = auth.currentUser?.uid
         val userEmail = auth.currentUser?.email ?: ""
 
@@ -79,7 +85,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
         }
 
-        // 3. Save / Update User Account Profile
+        // Save / Update User Account Profile
         btnSave.setOnClickListener {
             val updatedName = etName.text.toString().trim()
             val updatedPhone = etPhone.text.toString().trim()
@@ -104,7 +110,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        // 4. Send Firebase Password Reset Email
+        // Send Firebase Password Reset Email
         btnResetPass.setOnClickListener {
             if (userEmail.isNotEmpty()) {
                 auth.sendPasswordResetEmail(userEmail)
@@ -117,7 +123,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        // 5. Logout Action
+        // Logout Action
         btnLogout.setOnClickListener {
             auth.signOut()
             val intent = Intent(this, LoginActivity::class.java)
