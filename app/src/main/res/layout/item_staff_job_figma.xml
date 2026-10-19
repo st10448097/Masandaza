@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -20,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cleaning Service"
+            tools:text="Cleaning Service"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#0F172A" />
@@ -29,7 +30,7 @@
             android:id="@+id/tvItemStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Assigned"
+            tools:text="Assigned"
             android:textSize="11sp"
             android:textStyle="bold"
             android:textColor="#2563EB"
@@ -42,7 +43,7 @@
         android:id="@+id/tvItemClient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Client: Name"
+        tools:text="Client: Name"
         android:textSize="13sp"
         android:textColor="#475569"
         android:textStyle="bold"
@@ -52,7 +53,7 @@
         android:id="@+id/tvItemDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="📅 Date &amp; Time"
+        tools:text="📅 Date &amp; Time"
         android:textSize="12sp"
         android:textColor="#94A3B8"
         android:layout_marginBottom="16dp" />
@@ -88,4 +89,3 @@
             android:layout_marginStart="6dp" />
     </LinearLayout>
 </LinearLayout>
-
