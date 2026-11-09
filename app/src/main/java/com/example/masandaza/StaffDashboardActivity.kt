@@ -68,14 +68,14 @@ class StaffDashboardActivity : AppCompatActivity() {
                 for (doc in snapshot.documents) {
                     val id = doc.id
                     val service = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Service"
-                    val client = doc.getString("fullName") ?: doc.getString("customerName") ?: "Client"
+                    val client = doc.getString("fullName") ?: doc.getString("customerName") ?: doc.getString("customerEmail") ?: "Client"
                     val date = doc.getString("preferredDate") ?: doc.getString("date") ?: "Today"
                     val status = doc.getString("status") ?: "Pending"
                     val address = doc.getString("serviceAddress") ?: doc.getString("address") ?: "Address on record"
 
                     jobList.add(BookingModel(id, service, client, date, status, address))
 
-                    if (status.equals("Pending", true) || status.equals("Staff Assigned", true)) {
+                    if (status.equals("Pending", true) || status.equals("Booked", true) || status.equals("Staff Assigned", true)) {
                         pending++
                     } else if (status.equals("Completed", true)) {
                         completed++

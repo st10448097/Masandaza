@@ -26,14 +26,45 @@ class StaffJobDetailsActivity : AppCompatActivity() {
         val btnAccept = findViewById<Button>(R.id.btnAcceptJob)
         val btnUpdateStatus = findViewById<Button>(R.id.btnGoUpdateStatus)
 
+        fun bindDocData(docId: String, status: String, fullName: String, service: String, date: String, time: String, address: String) {
+            tvRef.text = "BOOKING REF: #${docId.uppercase()}"
+            tvClientName.text = fullName
+            tvService.text = service
+            tvDateTime.text = "📅 $date at $time"
+            tvAddress.text = address
+
+            if (!status.equals("Pending", true) && !status.equals("Booked", true)) {
+                btnAccept.text = "Accepted"
+                btnAccept.isEnabled = false
+            } else {
+                btnAccept.text = "Accept Job"
+                btnAccept.isEnabled = true
+            }
+        }
+
         // Fetch live booking details from Firestore
         db.collection("bookings").document(bookingId).get().addOnSuccessListener { doc ->
             if (doc.exists()) {
-                tvRef.text = "BOOKING REF: #BK-${doc.id.take(8).uppercase()}"
-                tvClientName.text = doc.getString("fullName") ?: doc.getString("customerName") ?: "Client"
-                tvService.text = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Service"
-                tvDateTime.text = "📅 ${doc.getString("preferredDate") ?: doc.getString("date") ?: "Today"} at ${doc.getString("preferredTime") ?: doc.getString("time") ?: "Standard Time"}"
-                tvAddress.text = doc.getString("serviceAddress") ?: doc.getString("address") ?: "Address on record"
+                val status = doc.getString("status") ?: "Pending"
+                val fullName = doc.getString("fullName") ?: doc.getString("customerName") ?: doc.getString("customerEmail") ?: "Client"
+                val service = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Service"
+                val date = doc.getString("preferredDate") ?: doc.getString("date") ?: "Today"
+                val time = doc.getString("preferredTime") ?: doc.getString("time") ?: "Standard Time"
+                val address = doc.getString("serviceAddress") ?: doc.getString("address") ?: "Address on record"
+                bindDocData(doc.id, status, fullName, service, date, time, address)
+            } else {
+                db.collection("bookings").whereEqualTo("bookingId", bookingId).get().addOnSuccessListener { query ->
+                    if (!query.isEmpty) {
+                        val d = query.documents.first()
+                        val status = d.getString("status") ?: "Pending"
+                        val fullName = d.getString("fullName") ?: d.getString("customerName") ?: d.getString("customerEmail") ?: "Client"
+                        val service = d.getString("serviceName") ?: d.getString("service") ?: "Cleaning Service"
+                        val date = d.getString("preferredDate") ?: d.getString("date") ?: "Today"
+                        val time = d.getString("preferredTime") ?: d.getString("time") ?: "Standard Time"
+                        val address = d.getString("serviceAddress") ?: d.getString("address") ?: "Address on record"
+                        bindDocData(d.getString("bookingId") ?: d.id, status, fullName, service, date, time, address)
+                    }
+                }
             }
         }
 
@@ -46,8 +77,18 @@ class StaffJobDetailsActivity : AppCompatActivity() {
                     btnAccept.text = "Accepted"
                     btnAccept.isEnabled = false
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                .addOnFailureListener {
+                    // Try fallback by bookingId field
+                    db.collection("bookings").whereEqualTo("bookingId", bookingId).get().addOnSuccessListener { q ->
+                        if (!q.isEmpty) {
+                            q.documents.first().reference.update("status", "Staff Assigned")
+                                .addOnSuccessListener {
+                                    Toast.makeText(this, "Job accepted successfully!", Toast.LENGTH_SHORT).show()
+                                    btnAccept.text = "Accepted"
+                                    btnAccept.isEnabled = false
+                                }
+                        }
+                    }
                 }
         }
 

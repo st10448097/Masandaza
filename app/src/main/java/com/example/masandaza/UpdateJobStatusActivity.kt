@@ -24,15 +24,26 @@ class UpdateJobStatusActivity : AppCompatActivity() {
         val rbCompleted = findViewById<RadioButton>(R.id.rbStatusCompleted)
         val btnSave = findViewById<Button>(R.id.btnSubmitStatusUpdate)
 
-        // Fetch current status to pre-select radio button
-        db.collection("bookings").document(bookingId).get().addOnSuccessListener { doc ->
-            val currentStatus = doc.getString("status") ?: "Pending"
+        fun selectRadio(currentStatus: String) {
             when {
-                currentStatus.equals("Pending", true) -> rbPending.isChecked = true
+                currentStatus.equals("Pending", true) || currentStatus.equals("Booked", true) -> rbPending.isChecked = true
                 currentStatus.equals("Staff Assigned", true) -> rbAssigned.isChecked = true
                 currentStatus.equals("Cleaning In Progress", true) -> rbInProgress.isChecked = true
                 currentStatus.equals("Ready for Review", true) -> rbReview.isChecked = true
                 currentStatus.equals("Completed", true) -> rbCompleted.isChecked = true
+            }
+        }
+
+        // Fetch current status to pre-select radio button
+        db.collection("bookings").document(bookingId).get().addOnSuccessListener { doc ->
+            if (doc.exists()) {
+                selectRadio(doc.getString("status") ?: "Pending")
+            } else {
+                db.collection("bookings").whereEqualTo("bookingId", bookingId).get().addOnSuccessListener { q ->
+                    if (!q.isEmpty) {
+                        selectRadio(q.documents.first().getString("status") ?: "Pending")
+                    }
+                }
             }
         }
 
@@ -52,8 +63,18 @@ class UpdateJobStatusActivity : AppCompatActivity() {
                     Toast.makeText(this, "Status updated to $newStatus!", Toast.LENGTH_SHORT).show()
                     finish()
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                .addOnFailureListener {
+                    db.collection("bookings").whereEqualTo("bookingId", bookingId).get().addOnSuccessListener { q ->
+                        if (!q.isEmpty) {
+                            q.documents.first().reference.update("status", newStatus)
+                                .addOnSuccessListener {
+                                    Toast.makeText(this, "Status updated to $newStatus!", Toast.LENGTH_SHORT).show()
+                                    finish()
+                                }
+                        } else {
+                            Toast.makeText(this, "Failed to update status", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
         }
     }

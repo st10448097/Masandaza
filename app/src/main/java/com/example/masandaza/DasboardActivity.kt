@@ -28,6 +28,7 @@ class DasboardActivity : AppCompatActivity() {
         val cardTrack = findViewById<View>(R.id.cardTrackBooking)
         val cardPayments = findViewById<View>(R.id.cardPayments)
 
+        val btnNavHome = findViewById<Button>(R.id.navBtnHome)
         val btnNavBook = findViewById<Button>(R.id.navBtnBook)
         val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
@@ -51,11 +52,14 @@ class DasboardActivity : AppCompatActivity() {
                 .whereEqualTo("customerId", uid)
                 .addSnapshotListener { query, _ ->
                     if (query != null && !query.isEmpty) {
-                        val doc = query.documents.last()
-                        val service = doc.getString("serviceName") ?: "Cleaning Service"
+                        val doc = query.documents.lastOrNull { d ->
+                            val s = d.getString("status") ?: ""
+                            !s.equals("Completed", true) && !s.equals("Done", true) && !s.equals("Cancelled", true)
+                        } ?: query.documents.last()
+                        val service = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Service"
                         val status = doc.getString("status") ?: "Booked"
-                        val date = doc.getString("preferredDate") ?: "Scheduled"
-                        val time = doc.getString("preferredTime") ?: "09:00 AM"
+                        val date = doc.getString("preferredDate") ?: doc.getString("date") ?: "Scheduled"
+                        val time = doc.getString("preferredTime") ?: doc.getString("time") ?: "09:00 AM"
 
                         tvActiveTitle.text = service
                         tvActiveBadge.text = status
@@ -68,13 +72,28 @@ class DasboardActivity : AppCompatActivity() {
                 }
         }
 
+        btnNavHome?.setTextColor(0xFF93C5FD.toInt())
+
         cardBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
         cardMyBookings?.setOnClickListener { startActivity(Intent(this, BookingsActivity::class.java)) }
         cardTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
         cardPayments?.setOnClickListener { startActivity(Intent(this, PaymentActivity::class.java)) }
 
-        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
-        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
-        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
+        btnNavHome?.setOnClickListener { /* Already on Home screen */ }
+        btnNavBook?.setOnClickListener {
+            startActivity(Intent(this, ServicesActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavTrack?.setOnClickListener {
+            startActivity(Intent(this, TrackBookingActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavProfile?.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
     }
 }

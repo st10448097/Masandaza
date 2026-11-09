@@ -16,9 +16,12 @@ import java.util.Locale
 
 //removed import android.widget.EditText because we are no longer collecting card details manually in the app.
 
+import com.google.firebase.firestore.FirebaseFirestore
+
 class PaymentActivity : AppCompatActivity() {
 
     private val auth = FirebaseAuth.getInstance()
+    private val db = FirebaseFirestore.getInstance()
     private val firebaseRepo = FirebaseRepository()
 
     // added PayFast Sandbox credentials because these are required to build the URL that opens the PayFast payment page.
@@ -29,13 +32,14 @@ class PaymentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
-        val bookingId = intent.getStringExtra("bookingId") ?: ""
-        val totalAmount = intent.getDoubleExtra("totalAmount", 0.0)
+        var bookingId = intent.getStringExtra("bookingId") ?: ""
+        var totalAmount = intent.getDoubleExtra("totalAmount", 0.0)
 
         val tvRef = findViewById<TextView>(R.id.tvPaymentBookingRef)
         val tvAmount = findViewById<TextView>(R.id.tvPaymentAmount)
         val btnPay = findViewById<Button>(R.id.btnSubmitPayment)
 
+        val btnNavHome = findViewById<Button>(R.id.navBtnHome)
         val btnNavBook = findViewById<Button>(R.id.navBtnBook)
         val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
@@ -43,19 +47,37 @@ class PaymentActivity : AppCompatActivity() {
         // Finding the WebView so we can load PayFast into it
         val webView = findViewById<WebView>(R.id.payfastWebView)
 
-        // removed all the EditText findViewById lines (etCardName, etCardNum, etc.)
-        // the reason to this is because we are letting PayFast's secure website handle the card inputs, not our app.
+        fun updateUI() {
+            tvRef.text = if (bookingId.isNotBlank()) "#$bookingId" else "#BK-PENDING"
+            val amountString = String.format(Locale.US, "%.2f", if (totalAmount > 0) totalAmount else 450.0)
+            tvAmount.text = "R $amountString"
+            btnPay.text = "Pay Now — R $amountString"
+        }
 
-        tvRef.text = if (bookingId.isNotBlank()) "#$bookingId" else "#BK-PENDING"
+        updateUI()
 
-        //Locale.US formatting. PayFast strictly requires amounts to be formatted like "450.00" (no commas, 2 decimals).
-        val amountString = String.format(Locale.US, "%.2f", totalAmount)
+        // If accessed directly from navigation with empty bookingId, load user's active pending booking
+        if (bookingId.isBlank() && auth.currentUser != null) {
+            db.collection("bookings")
+                .whereEqualTo("customerId", auth.currentUser!!.uid)
+                .get()
+                .addOnSuccessListener { query ->
+                    if (!query.isEmpty) {
+                        val pendingDoc = query.documents.lastOrNull { doc ->
+                            val s = doc.getString("status") ?: ""
+                            s.equals("Pending", true) || s.equals("Booked", true)
+                        } ?: query.documents.last()
 
-        tvAmount.text = "R $amountString"
-        btnPay.text = "Pay Now — R $amountString"
+                        bookingId = pendingDoc.getString("bookingId") ?: pendingDoc.id
+                        totalAmount = pendingDoc.getDouble("totalAmount") ?: 450.0
+                        updateUI()
+                    }
+                }
+        }
 
         btnPay.setOnClickListener {
-            // removed the entire 'when' block that validated card numbers, CVVs, and expiry dates because PayFast's secure page handles all validation now.
+            val finalAmount = if (totalAmount > 0) totalAmount else 450.0
+            val amountString = String.format(Locale.US, "%.2f", finalAmount)
 
             // Hide the button and show the WebView when they click Pay
             btnPay.visibility = View.GONE
@@ -77,10 +99,8 @@ class PaymentActivity : AppCompatActivity() {
                     super.onPageFinished(view, url)
 
                     // We check if the current URL is the PayFast success page.
-                    // Note: For a school project, this simple check is enough.
-                    // In a real app, you would use a server webhook.
                     if (url != null && url.contains("sandbox.payfast.co.za") && url.contains("successful")) {
-                        onPaymentSuccessful(bookingId, totalAmount)
+                        onPaymentSuccessful(bookingId, finalAmount)
                     }
                 }
             }
@@ -88,6 +108,7 @@ class PaymentActivity : AppCompatActivity() {
             // Actually load the PayFast page
             webView.loadUrl(paymentUrl)
         }
+        btnNavHome?.setOnClickListener { startActivity(Intent(this, DasboardActivity::class.java)) }
         btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
         btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
         btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }

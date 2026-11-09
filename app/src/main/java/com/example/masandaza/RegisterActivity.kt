@@ -67,6 +67,7 @@ class RegisterActivity : AppCompatActivity() {
                                     fullName = fullName,
                                     email = emailText,
                                     phoneNumber = phoneText,
+                                    phone = phoneText,
                                     role = "customer"
                                 )
 

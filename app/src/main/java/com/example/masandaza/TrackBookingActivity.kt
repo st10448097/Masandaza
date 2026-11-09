@@ -28,6 +28,7 @@ class TrackBookingActivity : AppCompatActivity() {
         val tvStep4 = findViewById<TextView>(R.id.tvTimelineStep4)
         val btnCallSupport = findViewById<Button>(R.id.btnCallStudioSupport)
 
+        val btnNavHome = findViewById<Button>(R.id.navBtnHome)
         val btnNavBook = findViewById<Button>(R.id.navBtnBook)
         val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
@@ -40,28 +41,80 @@ class TrackBookingActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val targetBookingId = intent.getStringExtra("bookingId")
+        val currentUserId = auth.currentUser?.uid
         val currentUserEmail = auth.currentUser?.email
 
-        // Fetch live booking data from Firestore matching the current user
-        if (currentUserEmail != null) {
+        if (!targetBookingId.isNullOrBlank()) {
+            // Priority 1: Track specific booking by ID (passed from Bookings screen)
+            db.collection("bookings").document(targetBookingId).addSnapshotListener { doc, e ->
+                if (e != null || doc == null || !doc.exists()) {
+                    // Fallback to query by bookingId field
+                    db.collection("bookings").whereEqualTo("bookingId", targetBookingId)
+                        .addSnapshotListener { snapshot, _ ->
+                            if (snapshot != null && !snapshot.isEmpty) {
+                                val d = snapshot.documents.last()
+                                val status = d.getString("status") ?: "Pending"
+                                val serviceName = d.getString("serviceName") ?: d.getString("service") ?: "Cleaning Session"
+                                val refId = d.getString("bookingId") ?: d.id
+                                tvRef.text = "REF: #${refId.uppercase()}"
+                                tvService.text = "Service: $serviceName"
+                                tvStatusBadge.text = status
+                                updateTimelineSteps(status, tvStep1, tvStep2, tvStep3, tvStep4, tvStatusBadge)
+                            }
+                        }
+                    return@addSnapshotListener
+                }
+                val status = doc.getString("status") ?: "Pending"
+                val serviceName = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Session"
+                val refId = doc.getString("bookingId") ?: doc.id
+
+                tvRef.text = "REF: #${refId.uppercase()}"
+                tvService.text = "Service: $serviceName"
+                tvStatusBadge.text = status
+
+                updateTimelineSteps(status, tvStep1, tvStep2, tvStep3, tvStep4, tvStatusBadge)
+            }
+        } else if (currentUserId != null) {
+            // Priority 2: Query by logged-in customerId
             db.collection("bookings")
-                .whereEqualTo("customerEmail", currentUserEmail)
+                .whereEqualTo("customerId", currentUserId)
                 .addSnapshotListener { snapshot, e ->
                     if (e != null) return@addSnapshotListener
 
                     if (snapshot != null && !snapshot.isEmpty) {
-                        // Grab the most recent booking
                         val doc = snapshot.documents.last()
                         val status = doc.getString("status") ?: "Pending"
                         val serviceName = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Session"
-                        val bookingId = doc.id
+                        val refId = doc.getString("bookingId") ?: doc.id
 
-                        tvRef.text = "REF: #BK-${bookingId.take(8).uppercase()}"
+                        tvRef.text = "REF: #${refId.uppercase()}"
                         tvService.text = "Service: $serviceName"
                         tvStatusBadge.text = status
 
-                        // Update timeline dynamically based on live status
                         updateTimelineSteps(status, tvStep1, tvStep2, tvStep3, tvStep4, tvStatusBadge)
+                    } else if (currentUserEmail != null) {
+                        // Priority 3: Fallback query by customerEmail
+                        db.collection("bookings")
+                            .whereEqualTo("customerEmail", currentUserEmail)
+                            .addSnapshotListener { snapshotEmail, _ ->
+                                if (snapshotEmail != null && !snapshotEmail.isEmpty) {
+                                    val doc = snapshotEmail.documents.last()
+                                    val status = doc.getString("status") ?: "Pending"
+                                    val serviceName = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Session"
+                                    val refId = doc.getString("bookingId") ?: doc.id
+
+                                    tvRef.text = "REF: #${refId.uppercase()}"
+                                    tvService.text = "Service: $serviceName"
+                                    tvStatusBadge.text = status
+
+                                    updateTimelineSteps(status, tvStep1, tvStep2, tvStep3, tvStep4, tvStatusBadge)
+                                } else {
+                                    tvRef.text = "REF: NO ACTIVE BOOKING"
+                                    tvService.text = "Service: None scheduled"
+                                    tvStatusBadge.text = "Inactive"
+                                }
+                            }
                     } else {
                         tvRef.text = "REF: NO ACTIVE BOOKING"
                         tvService.text = "Service: None scheduled"
@@ -69,9 +122,24 @@ class TrackBookingActivity : AppCompatActivity() {
                     }
                 }
         }
-        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
-        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
-        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
+        btnNavTrack?.setTextColor(0xFF93C5FD.toInt())
+
+        btnNavHome?.setOnClickListener {
+            startActivity(Intent(this, DasboardActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavBook?.setOnClickListener {
+            startActivity(Intent(this, ServicesActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavTrack?.setOnClickListener { /* Already on Track screen */ }
+        btnNavProfile?.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
     }
 
     private fun updateTimelineSteps(
@@ -98,7 +166,7 @@ class TrackBookingActivity : AppCompatActivity() {
         step4.text = "○  4. Service Completed & Reviewed"
 
         when {
-            status.equals("Pending", true) -> {
+            status.equals("Pending", true) || status.equals("Booked", true) -> {
                 badge.setTextColor(0xFFD97706.toInt())
                 badge.setBackgroundColor(0xFFFEF3C7.toInt())
                 step1.text = "✓  1. Booking Received & Logged"

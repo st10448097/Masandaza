@@ -55,7 +55,7 @@ class StaffJobsActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.navBtnJobs).setOnClickListener { /* Already here */ }
         findViewById<Button>(R.id.navBtnProfile).setOnClickListener {
-            val intent = Intent(this, StaffDashboardActivity::class.java)
+            val intent = Intent(this, StaffProfileActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
             finish()
@@ -86,11 +86,11 @@ class StaffJobsActivity : AppCompatActivity() {
                 for (doc in snapshot.documents) {
                     val status = doc.getString("status") ?: "Pending"
 
-                    // ONLY pull jobs that have been accepted/assigned (exclude raw pending requests)
-                    if (!status.equals("Pending", true)) {
+                    // ONLY pull jobs that have been accepted/assigned (exclude raw pending/booked requests)
+                    if (!status.equals("Pending", true) && !status.equals("Booked", true)) {
                         val id = doc.id
                         val service = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Service"
-                        val client = doc.getString("fullName") ?: doc.getString("customerName") ?: "Client"
+                        val client = doc.getString("fullName") ?: doc.getString("customerName") ?: doc.getString("customerEmail") ?: "Client"
                         val date = doc.getString("preferredDate") ?: doc.getString("date") ?: "Today"
                         val address = doc.getString("serviceAddress") ?: doc.getString("address") ?: "Address on record"
 

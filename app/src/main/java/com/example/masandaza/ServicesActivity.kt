@@ -11,6 +11,7 @@ class ServicesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_services)
 
+        val btnNavHome = findViewById<Button>(R.id.navBtnHome)
         val btnNavBook = findViewById<Button>(R.id.navBtnBook)
         val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
@@ -34,8 +35,23 @@ class ServicesActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnCarpet)?.setOnClickListener {
             openBooking("Carpet Cleaning", 350.0)
         }
-        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
-        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
-        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
+        btnNavBook?.setTextColor(0xFF93C5FD.toInt())
+
+        btnNavHome?.setOnClickListener {
+            startActivity(Intent(this, DasboardActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavBook?.setOnClickListener { /* Already on Services screen */ }
+        btnNavTrack?.setOnClickListener {
+            startActivity(Intent(this, TrackBookingActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavProfile?.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
     }
 }

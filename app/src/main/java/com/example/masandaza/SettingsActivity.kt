@@ -1,6 +1,5 @@
 package com.example.masandaza
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -21,17 +20,11 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Apply dark mode preference BEFORE setting content view so it doesn't lag/glitch
-        prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-        val isDarkMode = prefs.getBoolean("dark_mode", false)
-        if (isDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        prefs = getSharedPreferences("app_settings", MODE_PRIVATE)
+        val isDarkMode = prefs.getBoolean("dark_mode", false)
 
         val tvInitials = findViewById<TextView>(R.id.tvSettingsInitials)
         val tvNameHeader = findViewById<TextView>(R.id.tvSettingsProfileName)
@@ -44,19 +37,26 @@ class SettingsActivity : AppCompatActivity() {
         val btnResetPass = findViewById<Button>(R.id.btnChangePassword)
         val btnLogout = findViewById<Button>(R.id.btnSettingsLogout)
 
+        val btnNavHome = findViewById<Button>(R.id.navBtnHome)
         val btnNavBook = findViewById<Button>(R.id.navBtnBook)
         val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
+
+        // Highlight active profile tab in bottom nav
+        btnNavProfile?.setTextColor(0xFF93C5FD.toInt())
 
         // Set switch state matching saved preference
         switchDark.isChecked = isDarkMode
 
         switchDark.setOnCheckedChangeListener { _, isChecked ->
-            prefs.edit().putBoolean("dark_mode", isChecked).apply()
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            val currentMode = prefs.getBoolean("dark_mode", false)
+            if (isChecked != currentMode) {
+                prefs.edit().putBoolean("dark_mode", isChecked).apply()
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
             }
         }
 
@@ -64,27 +64,22 @@ class SettingsActivity : AppCompatActivity() {
         val currentUserId = auth.currentUser?.uid
         val userEmail = auth.currentUser?.email ?: ""
 
-        if (currentUserId != null) {
+        if (userEmail.isNotEmpty()) {
             tvEmailHeader.text = userEmail
+            tvInitials.text = getInitials("", userEmail)
+        }
 
+        if (currentUserId != null) {
             db.collection("users").document(currentUserId).get()
                 .addOnSuccessListener { doc ->
                     if (doc.exists()) {
                         val fullName = doc.getString("fullName") ?: ""
-                        val phone = doc.getString("phone") ?: ""
+                        val phone = doc.getString("phone") ?: doc.getString("phoneNumber") ?: ""
 
                         etName.setText(fullName)
                         etPhone.setText(phone)
                         tvNameHeader.text = fullName.ifBlank { userEmail }
-
-                        // Calculate visual initials
-                        val parts = fullName.trim().split(" ")
-                        val initials = when {
-                            parts.size >= 2 -> "${parts[0].firstOrNull() ?: ""}${parts[1].firstOrNull() ?: ""}"
-                            parts.size == 1 -> "${parts[0].firstOrNull() ?: ""}"
-                            else -> "U"
-                        }.uppercase()
-                        tvInitials.text = initials
+                        tvInitials.text = getInitials(fullName, userEmail)
                     }
                 }
         }
@@ -94,16 +89,22 @@ class SettingsActivity : AppCompatActivity() {
             val updatedName = etName.text.toString().trim()
             val updatedPhone = etPhone.text.toString().trim()
 
-            if (currentUserId != null && updatedName.isNotEmpty()) {
+            if (updatedName.isEmpty()) {
+                etName.error = "Name cannot be empty"
+                return@setOnClickListener
+            }
+
+            if (currentUserId != null) {
                 btnSave.isEnabled = false
                 btnSave.text = "Saving..."
 
                 db.collection("users").document(currentUserId)
-                    .update(mapOf("fullName" to updatedName, "phone" to updatedPhone))
+                    .update(mapOf("fullName" to updatedName, "phone" to updatedPhone, "phoneNumber" to updatedPhone))
                     .addOnSuccessListener {
                         btnSave.isEnabled = true
                         btnSave.text = "Update Account Info"
                         tvNameHeader.text = updatedName
+                        tvInitials.text = getInitials(updatedName, userEmail)
                         Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
                     }
                     .addOnFailureListener { e ->
@@ -124,6 +125,8 @@ class SettingsActivity : AppCompatActivity() {
                     .addOnFailureListener { e ->
                         Toast.makeText(this, "Reset failed: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
+            } else {
+                Toast.makeText(this, "No email address found for this account.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -136,8 +139,33 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
 
-        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
-        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
-        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
+        btnNavHome?.setOnClickListener {
+            startActivity(Intent(this, DasboardActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavBook?.setOnClickListener {
+            startActivity(Intent(this, ServicesActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavTrack?.setOnClickListener {
+            startActivity(Intent(this, TrackBookingActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavProfile?.setOnClickListener {
+            // Already on Profile / Settings screen
+        }
+    }
+
+    private fun getInitials(name: String, email: String): String {
+        val parts = name.trim().split("\\s+".toRegex()).filter { it.isNotBlank() }
+        return when {
+            parts.size >= 2 -> "${parts[0].first()}${parts[1].first()}"
+            parts.isNotEmpty() -> "${parts[0].first()}"
+            email.isNotBlank() -> "${email.first()}"
+            else -> "U"
+        }.uppercase()
     }
 }

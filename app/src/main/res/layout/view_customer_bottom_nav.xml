@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="Book"
-        android:textColor="#93C5FD"
+        android:textColor="#FFFFFF"
         android:textSize="11sp"
         android:textStyle="bold"
         android:backgroundTint="@android:color/transparent" />

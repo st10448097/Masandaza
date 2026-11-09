@@ -26,6 +26,7 @@ class BookingsActivity : AppCompatActivity() {
         val currentUserId = auth.currentUser?.uid
 
 
+        val btnNavHome = findViewById<Button>(R.id.navBtnHome)
         val btnNavBook = findViewById<Button>(R.id.navBtnBook)
         val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
@@ -35,6 +36,7 @@ class BookingsActivity : AppCompatActivity() {
         } else {
             showEmpty("Please log in to view your bookings.")
         }
+        btnNavHome?.setOnClickListener { startActivity(Intent(this, DasboardActivity::class.java)) }
         btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
         btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
         btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
