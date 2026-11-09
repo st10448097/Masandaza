@@ -24,7 +24,7 @@ class PaymentActivity : AppCompatActivity() {
 
     // Paystack Test Public Key
     // Replace with your actual key from https://dashboard.paystack.com (Settings -> API Keys & Webhooks)
-    private var paystackPublicKey = "sk_test_3a384e9555462d0f4d91df3360a9e5bc1123f750"
+    private var paystackPublicKey = "pk_test_3029eb8129aa5bc6a68e7dcb9db0d06e573747d9"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
