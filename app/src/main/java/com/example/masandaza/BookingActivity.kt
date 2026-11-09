@@ -29,6 +29,12 @@ class BookingActivity : AppCompatActivity() {
         val etNotes = findViewById<EditText>(R.id.etBookingNotes)
         val btnConfirm = findViewById<Button>(R.id.btnConfirmBooking)
 
+        val btnNavBook = findViewById<Button>(R.id.navBtnBook)
+        val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
+        val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
+
+
+
         etService.setText(serviceName)
 
         btnConfirm.setOnClickListener {
@@ -80,5 +86,8 @@ class BookingActivity : AppCompatActivity() {
                 }
             )
         }
+        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
+        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
+        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     }
 }

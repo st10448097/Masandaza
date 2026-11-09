@@ -28,6 +28,10 @@ class TrackBookingActivity : AppCompatActivity() {
         val tvStep4 = findViewById<TextView>(R.id.tvTimelineStep4)
         val btnCallSupport = findViewById<Button>(R.id.btnCallStudioSupport)
 
+        val btnNavBook = findViewById<Button>(R.id.navBtnBook)
+        val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
+        val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
+
         // Functional Support Call Action
         btnCallSupport.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL).apply {
@@ -65,6 +69,9 @@ class TrackBookingActivity : AppCompatActivity() {
                     }
                 }
         }
+        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
+        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
+        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     }
 
     private fun updateTimelineSteps(

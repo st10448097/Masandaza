@@ -11,6 +11,10 @@ class ServicesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_services)
 
+        val btnNavBook = findViewById<Button>(R.id.navBtnBook)
+        val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
+        val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
+
         fun openBooking(serviceName: String, basePrice: Double) {
             val intent = Intent(this, BookingActivity::class.java).apply {
                 putExtra("service", serviceName)
@@ -30,5 +34,8 @@ class ServicesActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnCarpet)?.setOnClickListener {
             openBooking("Carpet Cleaning", 350.0)
         }
+        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
+        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
+        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     }
 }

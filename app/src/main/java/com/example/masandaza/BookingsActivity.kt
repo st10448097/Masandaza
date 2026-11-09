@@ -20,16 +20,24 @@ class BookingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookings)
-        BottomNavigationHelper.attach(this, "Bookings")
+
 
         container = findViewById(R.id.containerCustomerBookings)
         val currentUserId = auth.currentUser?.uid
+
+
+        val btnNavBook = findViewById<Button>(R.id.navBtnBook)
+        val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
+        val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
 
         if (currentUserId != null) {
             loadCustomerBookings(currentUserId)
         } else {
             showEmpty("Please log in to view your bookings.")
         }
+        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
+        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
+        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     }
 
     private fun loadCustomerBookings(userId: String) {

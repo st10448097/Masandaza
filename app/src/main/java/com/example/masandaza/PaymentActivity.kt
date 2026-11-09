@@ -36,6 +36,10 @@ class PaymentActivity : AppCompatActivity() {
         val tvAmount = findViewById<TextView>(R.id.tvPaymentAmount)
         val btnPay = findViewById<Button>(R.id.btnSubmitPayment)
 
+        val btnNavBook = findViewById<Button>(R.id.navBtnBook)
+        val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
+        val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
+
         // Finding the WebView so we can load PayFast into it
         val webView = findViewById<WebView>(R.id.payfastWebView)
 
@@ -84,6 +88,9 @@ class PaymentActivity : AppCompatActivity() {
             // Actually load the PayFast page
             webView.loadUrl(paymentUrl)
         }
+        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
+        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
+        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     }
 
     // This function is separated from the button click to keep the code clean.

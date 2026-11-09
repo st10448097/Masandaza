@@ -44,6 +44,10 @@ class SettingsActivity : AppCompatActivity() {
         val btnResetPass = findViewById<Button>(R.id.btnChangePassword)
         val btnLogout = findViewById<Button>(R.id.btnSettingsLogout)
 
+        val btnNavBook = findViewById<Button>(R.id.navBtnBook)
+        val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
+        val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
+
         // Set switch state matching saved preference
         switchDark.isChecked = isDarkMode
 
@@ -131,5 +135,9 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
+        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
+        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     }
 }
