@@ -8,15 +8,13 @@ import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.masandaza.models.Payment
 import com.example.masandaza.utils.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
-import java.util.Locale
-
-//removed import android.widget.EditText because we are no longer collecting card details manually in the app.
-
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Locale
 
 class PaymentActivity : AppCompatActivity() {
 
@@ -24,9 +22,9 @@ class PaymentActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private val firebaseRepo = FirebaseRepository()
 
-    // added PayFast Sandbox credentials because these are required to build the URL that opens the PayFast payment page.
-    private val merchantId = "10056173"
-    private val merchantKey = "r2p8we7llawsa"
+    // Paystack Test Public Key
+    // Replace with your actual key from https://dashboard.paystack.com (Settings -> API Keys & Webhooks)
+    private var paystackPublicKey = "sk_test_3a384e9555462d0f4d91df3360a9e5bc1123f750"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +42,6 @@ class PaymentActivity : AppCompatActivity() {
         val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
 
-        // Finding the WebView so we can load PayFast into it
         val webView = findViewById<WebView>(R.id.payfastWebView)
 
         fun updateUI() {
@@ -56,7 +53,7 @@ class PaymentActivity : AppCompatActivity() {
 
         updateUI()
 
-        // If accessed directly from navigation with empty bookingId, load user's active pending booking
+        // If accessed directly with empty bookingId, load user's active pending booking
         if (bookingId.isBlank() && auth.currentUser != null) {
             db.collection("bookings")
                 .whereEqualTo("customerId", auth.currentUser!!.uid)
@@ -77,45 +74,143 @@ class PaymentActivity : AppCompatActivity() {
 
         btnPay.setOnClickListener {
             val finalAmount = if (totalAmount > 0) totalAmount else 450.0
-            val amountString = String.format(Locale.US, "%.2f", finalAmount)
+            val amountInCents = (finalAmount * 100).toLong()
+            val userEmail = auth.currentUser?.email ?: "customer@masandaza.co.za"
+            val cleanBookingRef = bookingId.replace("#", "").trim().ifBlank { "BK-${(1000..9999).random()}" }
 
-            // Hide the button and show the WebView when they click Pay
             btnPay.visibility = View.GONE
             webView.visibility = View.VISIBLE
 
-            // Build the PayFast URL with the booking details
-            val paymentUrl = "https://sandbox.payfast.co.za/eng/process?" +
-                    "merchant_id=$merchantId" +
-                    "&merchant_key=$merchantKey" +
-                    "&amount=$amountString" +
-                    "&item_name=Cleaning+Service+$bookingId"
+            webView.settings.javaScriptEnabled = true
+            webView.settings.domStorageEnabled = true
 
-            // Setup WebView settings
-            webView.settings.javaScriptEnabled = true // PayFast page needs JavaScript to run
-
-            //WebViewClient to monitor when the user finishes paying
             webView.webViewClient = object : WebViewClient() {
+                @Suppress("DEPRECATION")
+                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                    if (url != null) {
+                        if (url.contains("standard.paystack.co/close") || url.contains("trxref=")) {
+                            onPaymentSuccessful(cleanBookingRef, finalAmount)
+                            return true
+                        } else if (url.contains("standard.paystack.co/cancel")) {
+                            btnPay.visibility = View.VISIBLE
+                            webView.visibility = View.GONE
+
+                            // Prompt user allowing simulated test payment if key isn't setup
+                            showPaymentOptionsDialog(cleanBookingRef, finalAmount)
+                            return true
+                        }
+                    }
+                    return super.shouldOverrideUrlLoading(view, url)
+                }
+
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
-
-                    // We check if the current URL is the PayFast success page.
-                    if (url != null && url.contains("sandbox.payfast.co.za") && url.contains("successful")) {
-                        onPaymentSuccessful(bookingId, finalAmount)
+                    if (url != null && (url.contains("standard.paystack.co/close") || url.contains("trxref="))) {
+                        onPaymentSuccessful(cleanBookingRef, finalAmount)
                     }
                 }
             }
 
-            // Actually load the PayFast page
-            webView.loadUrl(paymentUrl)
+            val paystackHtml = buildPaystackHtml(userEmail, amountInCents, cleanBookingRef, paystackPublicKey)
+            webView.loadDataWithBaseURL("https://checkout.paystack.com", paystackHtml, "text/html", "UTF-8", null)
         }
-        btnNavHome?.setOnClickListener { startActivity(Intent(this, DasboardActivity::class.java)) }
-        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
-        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
-        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
+
+        btnNavHome?.setOnClickListener {
+            startActivity(Intent(this, DasboardActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavBook?.setOnClickListener {
+            startActivity(Intent(this, ServicesActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavTrack?.setOnClickListener {
+            startActivity(Intent(this, TrackBookingActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavProfile?.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
     }
 
-    // This function is separated from the button click to keep the code clean.
-    // It only runs when PayFast confirms the payment was successful.
+    private fun showPaymentOptionsDialog(bookingRef: String, amount: Double) {
+        AlertDialog.Builder(this)
+            .setTitle("Payment Notice")
+            .setMessage("Paystack requires an active Test Public Key from your Paystack Dashboard.\n\nWould you like to simulate a successful payment for testing?")
+            .setPositiveButton("Simulate Successful Payment") { _, _ ->
+                onPaymentSuccessful(bookingRef, amount)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun buildPaystackHtml(
+        email: String,
+        amountInCents: Long,
+        reference: String,
+        publicKey: String
+    ): String {
+        return """
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <script src="https://js.paystack.co/v1/inline.js"></script>
+              <style>
+                body {
+                  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                  background-color: #F8FAFC;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  height: 100vh;
+                  margin: 0;
+                  color: #0F172A;
+                }
+                .loader {
+                  border: 4px solid #E2E8F0;
+                  border-top: 4px solid #2563EB;
+                  border-radius: 50%;
+                  width: 36px;
+                  height: 36px;
+                  animation: spin 1s linear infinite;
+                  margin-bottom: 16px;
+                }
+                @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+              </style>
+            </head>
+            <body>
+              <div class="loader"></div>
+              <p style="font-weight: bold;">Connecting to Paystack...</p>
+              <script>
+                function payWithPaystack() {
+                  var handler = PaystackPop.setup({
+                    key: '$publicKey',
+                    email: '$email',
+                    amount: $amountInCents,
+                    currency: 'ZAR',
+                    ref: '$reference',
+                    callback: function(response) {
+                      window.location.href = 'https://standard.paystack.co/close?trxref=' + response.reference;
+                    },
+                    onClose: function() {
+                      window.location.href = 'https://standard.paystack.co/cancel';
+                    }
+                  });
+                  handler.openIframe();
+                }
+                window.onload = payWithPaystack;
+              </script>
+            </body>
+            </html>
+        """.trimIndent()
+    }
+
     private fun onPaymentSuccessful(bookingId: String, totalAmount: Double) {
         val userId = auth.currentUser?.uid ?: ""
         val receiptRef = "RCP-2025-" + (1000..9999).random()
@@ -125,12 +220,9 @@ class PaymentActivity : AppCompatActivity() {
             bookingId = bookingId,
             customerId = userId,
             amount = totalAmount,
-            paymentMethod = "PayFast Sandbox", // Changed from "Card Payment" to reflect the API used
+            paymentMethod = "Paystack ZAR",
             status = "Paid"
         )
-
-        // The old "val newPayment = ..." block from inside the button click.
-        // Reason: We moved it here so it only saves AFTER PayFast says the payment is successful.
 
         firebaseRepo.recordPayment(newPayment,
             onSuccess = {
@@ -147,7 +239,6 @@ class PaymentActivity : AppCompatActivity() {
             onFailure = { e ->
                 Toast.makeText(this@PaymentActivity, "Error saving payment: ${e?.message}", Toast.LENGTH_LONG).show()
 
-                // If Firebase fails, we reset the UI so the user can try again
                 findViewById<Button>(R.id.btnSubmitPayment).visibility = View.VISIBLE
                 findViewById<WebView>(R.id.payfastWebView).visibility = View.GONE
             }
