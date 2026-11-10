@@ -30,20 +30,29 @@ class StaffProfileActivity : AppCompatActivity() {
         val btnLogout = findViewById<Button>(R.id.btnStaffLogoutAction)
         val switchDarkMode = findViewById<SwitchMaterial>(R.id.switchDarkMode)
 
+        val btnNavDash = findViewById<Button>(R.id.navBtnDashboard)
+        val btnNavJobs = findViewById<Button>(R.id.navBtnJobs)
+        val btnNavProf = findViewById<Button>(R.id.navBtnProfile)
+
+        // Highlight active Profile tab in light blue
+        btnNavDash?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavJobs?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavProf?.setTextColor(0xFF93C5FD.toInt())
+
         // Bottom Nav setup
-        findViewById<Button>(R.id.navBtnDashboard).setOnClickListener {
+        btnNavDash?.setOnClickListener {
             val intent = Intent(this, StaffDashboardActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
             finish()
         }
-        findViewById<Button>(R.id.navBtnJobs).setOnClickListener {
+        btnNavJobs?.setOnClickListener {
             val intent = Intent(this, StaffJobsActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
             finish()
         }
-        findViewById<Button>(R.id.navBtnProfile).setTextColor(0xFF2563EB.toInt())
+        btnNavProf?.setOnClickListener { /* Already here */ }
 
         // Dark Mode Toggle
         switchDarkMode.isChecked = isDarkMode

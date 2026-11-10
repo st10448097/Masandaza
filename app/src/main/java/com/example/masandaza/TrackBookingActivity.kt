@@ -122,7 +122,11 @@ class TrackBookingActivity : AppCompatActivity() {
                     }
                 }
         }
+        // Highlight active Track tab in light blue
+        btnNavHome?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavBook?.setTextColor(0xFFFFFFFF.toInt())
         btnNavTrack?.setTextColor(0xFF93C5FD.toInt())
+        btnNavProfile?.setTextColor(0xFFFFFFFF.toInt())
 
         btnNavHome?.setOnClickListener {
             startActivity(Intent(this, DasboardActivity::class.java).apply {

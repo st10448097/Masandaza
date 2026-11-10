@@ -42,6 +42,12 @@ class PaymentActivity : AppCompatActivity() {
         val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
 
+        // Highlight active tab in light blue
+        btnNavHome?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavBook?.setTextColor(0xFF93C5FD.toInt())
+        btnNavTrack?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavProfile?.setTextColor(0xFFFFFFFF.toInt())
+
         val webView = findViewById<WebView>(R.id.payfastWebView)
 
         fun updateUI() {

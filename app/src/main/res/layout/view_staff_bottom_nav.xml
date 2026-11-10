@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="Jobs"
-        android:textColor="#38BDF8"
+        android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:textStyle="bold"
         android:backgroundTint="@android:color/transparent"

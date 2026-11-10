@@ -42,7 +42,10 @@ class SettingsActivity : AppCompatActivity() {
         val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
 
-        // Highlight active profile tab in bottom nav
+        // Highlight active Profile tab in light blue
+        btnNavHome?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavBook?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavTrack?.setTextColor(0xFFFFFFFF.toInt())
         btnNavProfile?.setTextColor(0xFF93C5FD.toInt())
 
         // Set switch state matching saved preference

@@ -46,15 +46,24 @@ class StaffJobsActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        val btnNavDash = findViewById<Button>(R.id.navBtnDashboard)
+        val btnNavJobs = findViewById<Button>(R.id.navBtnJobs)
+        val btnNavProf = findViewById<Button>(R.id.navBtnProfile)
+
+        // Highlight active Jobs tab in light blue
+        btnNavDash?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavJobs?.setTextColor(0xFF93C5FD.toInt())
+        btnNavProf?.setTextColor(0xFFFFFFFF.toInt())
+
         // Bottom Navigation Redirection
-        findViewById<Button>(R.id.navBtnDashboard).setOnClickListener {
+        btnNavDash?.setOnClickListener {
             val intent = Intent(this, StaffDashboardActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
             finish()
         }
-        findViewById<Button>(R.id.navBtnJobs).setOnClickListener { /* Already here */ }
-        findViewById<Button>(R.id.navBtnProfile).setOnClickListener {
+        btnNavJobs?.setOnClickListener { /* Already here */ }
+        btnNavProf?.setOnClickListener {
             val intent = Intent(this, StaffProfileActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)

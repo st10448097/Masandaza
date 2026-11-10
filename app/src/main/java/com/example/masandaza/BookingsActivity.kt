@@ -31,15 +31,37 @@ class BookingsActivity : AppCompatActivity() {
         val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
 
+        // Highlight active Book tab in light blue
+        btnNavHome?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavBook?.setTextColor(0xFF93C5FD.toInt())
+        btnNavTrack?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavProfile?.setTextColor(0xFFFFFFFF.toInt())
+
         if (currentUserId != null) {
             loadCustomerBookings(currentUserId)
         } else {
             showEmpty("Please log in to view your bookings.")
         }
-        btnNavHome?.setOnClickListener { startActivity(Intent(this, DasboardActivity::class.java)) }
-        btnNavBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
-        btnNavTrack?.setOnClickListener { startActivity(Intent(this, TrackBookingActivity::class.java)) }
-        btnNavProfile?.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
+        btnNavHome?.setOnClickListener {
+            startActivity(Intent(this, DasboardActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavBook?.setOnClickListener {
+            startActivity(Intent(this, ServicesActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavTrack?.setOnClickListener {
+            startActivity(Intent(this, TrackBookingActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavProfile?.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
     }
 
     private fun loadCustomerBookings(userId: String) {

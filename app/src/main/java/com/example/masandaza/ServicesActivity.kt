@@ -35,7 +35,11 @@ class ServicesActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnCarpet)?.setOnClickListener {
             openBooking("Carpet Cleaning", 350.0)
         }
+        // Highlight active Book tab in light blue
+        btnNavHome?.setTextColor(0xFFFFFFFF.toInt())
         btnNavBook?.setTextColor(0xFF93C5FD.toInt())
+        btnNavTrack?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavProfile?.setTextColor(0xFFFFFFFF.toInt())
 
         btnNavHome?.setOnClickListener {
             startActivity(Intent(this, DasboardActivity::class.java).apply {

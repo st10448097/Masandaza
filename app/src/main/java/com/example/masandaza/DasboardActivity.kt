@@ -72,7 +72,11 @@ class DasboardActivity : AppCompatActivity() {
                 }
         }
 
+        // Highlight active Home tab in light blue
         btnNavHome?.setTextColor(0xFF93C5FD.toInt())
+        btnNavBook?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavTrack?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavProfile?.setTextColor(0xFFFFFFFF.toInt())
 
         cardBook?.setOnClickListener { startActivity(Intent(this, ServicesActivity::class.java)) }
         cardMyBookings?.setOnClickListener { startActivity(Intent(this, BookingsActivity::class.java)) }
