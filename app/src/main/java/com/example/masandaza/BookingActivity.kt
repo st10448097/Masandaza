@@ -1,16 +1,19 @@
 package com.example.masandaza
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.masandaza.models.Booking
 import com.example.masandaza.utils.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.example.masandaza.models.Booking
-
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Calendar
+import java.util.Locale
 
 class BookingActivity : AppCompatActivity() {
 
@@ -38,6 +41,68 @@ class BookingActivity : AppCompatActivity() {
         val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
 
         etService.setText(serviceName)
+
+        val calendar = Calendar.getInstance()
+
+        // Built-in Calendar DatePicker
+        etDate.isFocusable = false
+        etDate.isClickable = true
+        etDate.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                this,
+                { _, year, month, dayOfMonth ->
+                    calendar.set(Calendar.YEAR, year)
+                    calendar.set(Calendar.MONTH, month)
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                    val formattedDate = String.format(
+                        Locale.US,
+                        "%04d-%02d-%02d",
+                        year,
+                        month + 1,
+                        dayOfMonth
+                    )
+                    etDate.setText(formattedDate)
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+            // Prevent choosing past dates
+            datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
+            datePickerDialog.show()
+        }
+
+        // Built-in Clock TimePicker
+        etTime.isFocusable = false
+        etTime.isClickable = true
+        etTime.setOnClickListener {
+            TimePickerDialog(
+                this,
+                { _, hourOfDay, minute ->
+                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                    calendar.set(Calendar.MINUTE, minute)
+
+                    val amPm = if (hourOfDay < 12) "AM" else "PM"
+                    val hourIn12Format = when {
+                        hourOfDay == 0 -> 12
+                        hourOfDay > 12 -> hourOfDay - 12
+                        else -> hourOfDay
+                    }
+                    val formattedTime = String.format(
+                        Locale.US,
+                        "%02d:%02d %s",
+                        hourIn12Format,
+                        minute,
+                        amPm
+                    )
+                    etTime.setText(formattedTime)
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                false
+            ).show()
+        }
 
         btnConfirm.setOnClickListener {
             val address = etAddress.text.toString().trim()
