@@ -128,6 +128,7 @@ class StaffJobsAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvService: TextView = view.findViewById(R.id.tvItemService)
         val tvClient: TextView = view.findViewById(R.id.tvItemClient)
+        val tvDateTime: TextView = view.findViewById(R.id.tvItemDateTime)
         val tvStatus: TextView = view.findViewById(R.id.tvItemStatus)
         val btnDetails: Button = view.findViewById(R.id.btnItemDetails)
         val btnUpdate: Button = view.findViewById(R.id.btnItemUpdateStatus)
@@ -141,8 +142,34 @@ class StaffJobsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.tvService.text = item.serviceName
-        holder.tvClient.text = item.clientName
-        holder.tvStatus.text = item.status
+        holder.tvClient.text = "Client: ${item.clientName}"
+        holder.tvDateTime.text = "📅 ${item.date}"
+
+        val status = item.status
+        holder.tvStatus.text = status
+
+        when {
+            status.equals("Pending", true) || status.equals("Booked", true) -> {
+                holder.tvStatus.setTextColor(0xFFD97706.toInt())
+                holder.tvStatus.setBackgroundColor(0xFFFEF3C7.toInt())
+            }
+            status.equals("Staff Assigned", true) -> {
+                holder.tvStatus.setTextColor(0xFF2563EB.toInt())
+                holder.tvStatus.setBackgroundColor(0xFFDBEAFE.toInt())
+            }
+            status.equals("Cleaning In Progress", true) -> {
+                holder.tvStatus.setTextColor(0xFF7C3AED.toInt())
+                holder.tvStatus.setBackgroundColor(0xFFF3E8FF.toInt())
+            }
+            status.equals("Completed", true) || status.equals("Done", true) -> {
+                holder.tvStatus.setTextColor(0xFF16A34A.toInt())
+                holder.tvStatus.setBackgroundColor(0xFFDCFCE7.toInt())
+            }
+            else -> {
+                holder.tvStatus.setTextColor(0xFF475569.toInt())
+                holder.tvStatus.setBackgroundColor(0xFFF1F5F9.toInt())
+            }
+        }
 
         holder.btnDetails.setOnClickListener { onClick(item.id) }
         holder.btnUpdate.setOnClickListener { onClick(item.id) }
