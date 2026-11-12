@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.masandaza.models.User
 import com.example.masandaza.utils.FirebaseRepository
+import com.example.masandaza.utils.ValidationUtils
 import com.google.firebase.auth.FirebaseAuth
 
 class RegisterActivity : AppCompatActivity() {
@@ -31,18 +32,21 @@ class RegisterActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnRegister).setOnClickListener {
             val fullName = name.text.toString().trim()
-            val emailText = email.text.toString().trim()
+            val rawEmail = email.text.toString()
             val phoneText = phone.text.toString().trim()
             val passwordText = password.text.toString().trim()
             val confirmText = confirm.text.toString().trim()
+
+            val emailValidation = ValidationUtils.validateEmailDetailed(rawEmail)
+            val normalizedEmail = ValidationUtils.normalizeEmail(rawEmail)
 
             when {
                 fullName.isBlank() -> {
                     name.error = "Enter your full name"
                     name.requestFocus()
                 }
-                !Patterns.EMAIL_ADDRESS.matcher(emailText).matches() -> {
-                    email.error = "Enter a valid email"
+                emailValidation is ValidationUtils.EmailValidationResult.Invalid -> {
+                    email.error = emailValidation.reason
                     email.requestFocus()
                 }
                 phoneText.length < 10 -> {
@@ -58,14 +62,14 @@ class RegisterActivity : AppCompatActivity() {
                     confirm.requestFocus()
                 }
                 else -> {
-                    auth.createUserWithEmailAndPassword(emailText, passwordText)
+                    auth.createUserWithEmailAndPassword(normalizedEmail, passwordText)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 val currentUserId = auth.currentUser?.uid ?: ""
                                 val newUser = User(
                                     userId = currentUserId,
                                     fullName = fullName,
-                                    email = emailText,
+                                    email = normalizedEmail,
                                     phoneNumber = phoneText,
                                     role = "customer"
                                 )

@@ -22,6 +22,7 @@ class DasboardActivity : AppCompatActivity() {
         val tvActiveTitle = findViewById<TextView>(R.id.tvDashboardNextService)
         val tvActiveBadge = findViewById<TextView>(R.id.tvDashboardStatusBadge)
         val tvActiveDetails = findViewById<TextView>(R.id.tvDashboardAppointmentDetails)
+        val tvBookingsSubtitle = findViewById<TextView>(R.id.tvDashboardMyBookingsSubtitle)
 
         val cardBook = findViewById<View>(R.id.cardBookCleaning)
         val cardMyBookings = findViewById<View>(R.id.cardMyBookings)
@@ -51,6 +52,9 @@ class DasboardActivity : AppCompatActivity() {
                 .whereEqualTo("customerId", uid)
                 .addSnapshotListener { query, _ ->
                     if (query != null && !query.isEmpty) {
+                        val count = query.size()
+                        tvBookingsSubtitle?.text = "$count Booking${if (count > 1) "s" else ""}"
+
                         val doc = query.documents.last()
                         val service = doc.getString("serviceName") ?: "Cleaning Service"
                         val status = doc.getString("status") ?: "Booked"
@@ -61,6 +65,7 @@ class DasboardActivity : AppCompatActivity() {
                         tvActiveBadge.text = status
                         tvActiveDetails.text = "Scheduled for: $date at $time"
                     } else {
+                        tvBookingsSubtitle?.text = "History & Status"
                         tvActiveTitle.text = "No Active Appointment"
                         tvActiveBadge.text = "None"
                         tvActiveDetails.text = "Tap 'Book Cleaning' to schedule your session."

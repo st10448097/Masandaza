@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.masandaza.utils.ValidationUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -25,18 +26,27 @@ class LoginActivity : AppCompatActivity() {
         val tvRegister = findViewById<TextView>(R.id.tvGoToRegister)
 
         btnSubmit.setOnClickListener {
-            val email = etEmail.text.toString().trim()
+            val rawEmail = etEmail.text.toString()
             val password = etPassword.text.toString().trim()
 
-            if (email.isBlank() || password.isBlank()) {
+            val emailValidation = ValidationUtils.validateEmailDetailed(rawEmail)
+            val normalizedEmail = ValidationUtils.normalizeEmail(rawEmail)
+
+            if (rawEmail.isBlank() || password.isBlank()) {
                 Toast.makeText(this, "Please fill in email and password", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (emailValidation is ValidationUtils.EmailValidationResult.Invalid) {
+                etEmail.error = emailValidation.reason
+                etEmail.requestFocus()
                 return@setOnClickListener
             }
 
             btnSubmit.isEnabled = false
             btnSubmit.text = "Authenticating..."
 
-            auth.signInWithEmailAndPassword(email, password)
+            auth.signInWithEmailAndPassword(normalizedEmail, password)
                 .addOnSuccessListener { result ->
                     val firebaseUser = result.user
                     val userEmail = firebaseUser?.email ?: email

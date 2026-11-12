@@ -1,28 +1,44 @@
+# ==============================================================================
+# Masandaza Android CI Workflow
+# ==============================================================================
+# This GitHub Actions workflow automatically builds and tests the Android application
+# on every code push or pull request targeted at the 'main' or 'master' branches.
+# ==============================================================================
+
 name: Android CI
 
+# Workflow Triggers: Event rules that trigger this workflow
 on:
   push:
+    # Trigger CI workflow when code is pushed to master or main
     branches: [ "master", "main" ]
   pull_request:
+    # Trigger CI workflow on pull requests opened against master or main
     branches: [ "master", "main" ]
 
+# Jobs section: Defines parallel or sequential automated tasks
 jobs:
   test:
+    name: Run Android Unit Tests
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository source code onto the GitHub runner
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # Step 2: Set up Java Development Kit (JDK 17) required for Android Gradle builds
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
+          cache: 'gradle' # Automatically cache Gradle dependencies to speed up builds
 
+      # Step 3: Grant executable permissions to the Gradle Wrapper script (gradlew)
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # Step 4: Execute project unit test suite via Gradle Wrapper
       - name: Run Unit Tests
         run: ./gradlew test
