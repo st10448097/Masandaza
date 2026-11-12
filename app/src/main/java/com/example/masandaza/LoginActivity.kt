@@ -49,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(normalizedEmail, password)
                 .addOnSuccessListener { result ->
                     val firebaseUser = result.user
-                    val userEmail = firebaseUser?.email ?: email
+                    val userEmail = firebaseUser?.email ?: normalizedEmail
 
                     // EMERGENCY OVERRIDE: Force staff dashboard for admin email immediately
                     if (userEmail.lowercase() == "admin@masandaza.com") {
