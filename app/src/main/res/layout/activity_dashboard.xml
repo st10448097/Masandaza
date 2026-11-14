@@ -99,13 +99,12 @@
                         android:orientation="vertical"
                         android:gravity="center"
                         android:padding="14dp">
-                        <TextView
+                        <ImageView
                             android:layout_width="44dp"
                             android:layout_height="44dp"
-                            android:text="🧹"
-                            android:textSize="22sp"
-                            android:gravity="center"
-                            android:background="@drawable/bg_circle_avatar"
+                            android:src="@drawable/cleaning"
+                            android:scaleType="fitCenter"
+                            android:contentDescription="Book Cleaning Icon"
                             android:layout_marginBottom="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -144,13 +143,12 @@
                         android:orientation="vertical"
                         android:gravity="center"
                         android:padding="14dp">
-                        <TextView
+                        <ImageView
                             android:layout_width="44dp"
                             android:layout_height="44dp"
-                            android:text="📋"
-                            android:textSize="22sp"
-                            android:gravity="center"
-                            android:background="@drawable/bg_circle_avatar"
+                            android:src="@drawable/booking"
+                            android:scaleType="fitCenter"
+                            android:contentDescription="My Bookings Icon"
                             android:layout_marginBottom="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -190,13 +188,12 @@
                         android:orientation="vertical"
                         android:gravity="center"
                         android:padding="14dp">
-                        <TextView
+                        <ImageView
                             android:layout_width="44dp"
                             android:layout_height="44dp"
-                            android:text="📍"
-                            android:textSize="22sp"
-                            android:gravity="center"
-                            android:background="@drawable/bg_circle_avatar"
+                            android:src="@drawable/market_research"
+                            android:scaleType="fitCenter"
+                            android:contentDescription="Track Booking Icon"
                             android:layout_marginBottom="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -235,13 +232,12 @@
                         android:orientation="vertical"
                         android:gravity="center"
                         android:padding="14dp">
-                        <TextView
+                        <ImageView
                             android:layout_width="44dp"
                             android:layout_height="44dp"
-                            android:text="💳"
-                            android:textSize="22sp"
-                            android:gravity="center"
-                            android:background="@drawable/bg_circle_avatar"
+                            android:src="@drawable/atm_card"
+                            android:scaleType="fitCenter"
+                            android:contentDescription="Payments Icon"
                             android:layout_marginBottom="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
