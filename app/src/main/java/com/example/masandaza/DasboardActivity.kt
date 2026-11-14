@@ -23,6 +23,7 @@ class DasboardActivity : AppCompatActivity() {
         val tvActiveTitle = findViewById<TextView>(R.id.tvDashboardNextService)
         val tvActiveBadge = findViewById<TextView>(R.id.tvDashboardStatusBadge)
         val tvActiveDetails = findViewById<TextView>(R.id.tvDashboardAppointmentDetails)
+        val tvBookingsSubtitle = findViewById<TextView>(R.id.tvDashboardMyBookingsSubtitle)
         val cardNextAppointment = findViewById<View>(R.id.cardNextAppointment)
 
         val cardBook = findViewById<View>(R.id.cardBookCleaning)
@@ -54,16 +55,14 @@ class DasboardActivity : AppCompatActivity() {
             db.collection("bookings")
                 .whereEqualTo("customerId", uid)
                 .addSnapshotListener { query, _ ->
-                    if (query != null && !query.isEmpty) {
-                        val count = query.size()
-                        tvBookingsSubtitle?.text = "$count Booking${if (count > 1) "s" else ""}"
-
-                        val doc = query.documents.last()
-                        val service = doc.getString("serviceName") ?: "Cleaning Service"
-                        val status = doc.getString("status") ?: "Booked"
-                        val date = doc.getString("preferredDate") ?: "Scheduled"
-                        val time = doc.getString("preferredTime") ?: "09:00 AM"
                     val docs = query?.documents ?: emptyList()
+                    val count = docs.size
+                    if (count > 0) {
+                        tvBookingsSubtitle?.text = "$count Booking${if (count > 1) "s" else ""}"
+                    } else {
+                        tvBookingsSubtitle?.text = "History & Status"
+                    }
+
                     val activeDoc = docs.lastOrNull { d ->
                         val s = d.getString("status") ?: ""
                         !s.equals("Completed", true) && !s.equals("Done", true) && !s.equals("Cancelled", true)
@@ -88,10 +87,6 @@ class DasboardActivity : AppCompatActivity() {
                                 }
                             }
                     } else {
-                        tvBookingsSubtitle?.text = "History & Status"
-                        tvActiveTitle.text = "No Active Appointment"
-                        tvActiveBadge.text = "None"
-                        tvActiveDetails.text = "Tap 'Book Cleaning' to schedule your session."
                         showNoActiveAppointment(tvActiveTitle, tvActiveBadge, tvActiveDetails, cardNextAppointment)
                     }
                 }
