@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,14 +33,23 @@ class StaffDashboardActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        findViewById<Button>(R.id.navBtnDashboard).setOnClickListener { /* Already here */ }
-        findViewById<Button>(R.id.navBtnJobs).setOnClickListener {
+        val btnNavDash = findViewById<Button>(R.id.navBtnDashboard)
+        val btnNavJobs = findViewById<Button>(R.id.navBtnJobs)
+        val btnNavProf = findViewById<Button>(R.id.navBtnProfile)
+
+        // Highlight active Dashboard tab in light blue
+        btnNavDash?.setTextColor(0xFF93C5FD.toInt())
+        btnNavJobs?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavProf?.setTextColor(0xFFFFFFFF.toInt())
+
+        btnNavDash?.setOnClickListener { /* Already here */ }
+        btnNavJobs?.setOnClickListener {
             val intent = Intent(this, StaffJobsActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
             finish()
         }
-        findViewById<Button>(R.id.navBtnProfile).setOnClickListener {
+        btnNavProf?.setOnClickListener {
             val intent = Intent(this, StaffProfileActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
@@ -68,29 +79,40 @@ class StaffDashboardActivity : AppCompatActivity() {
                 for (doc in snapshot.documents) {
                     val id = doc.id
                     val service = doc.getString("serviceName") ?: doc.getString("service") ?: "Cleaning Service"
-                    val client = doc.getString("fullName") ?: doc.getString("customerName") ?: "Client"
+                    val client = doc.getString("fullName") ?: doc.getString("customerName") ?: doc.getString("customerEmail") ?: "Client"
                     val date = doc.getString("preferredDate") ?: doc.getString("date") ?: "Today"
                     val status = doc.getString("status") ?: "Pending"
                     val address = doc.getString("serviceAddress") ?: doc.getString("address") ?: "Address on record"
 
                     jobList.add(BookingModel(id, service, client, date, status, address))
 
-                    if (status.equals("Pending", true) || status.equals("Staff Assigned", true)) {
-                        pending++
-                    } else if (status.equals("Completed", true)) {
+                    if (status.equals("Completed", true) || status.equals("Done", true)) {
                         completed++
+                    } else if (!status.equals("Cancelled", true)) {
+                        pending++
                     }
                 }
 
-                tvTotalJobs.text = jobList.size.toString()
+                tvTotalJobs.text = (pending + completed).toString()
                 tvPendingJobs.text = pending.toString()
                 tvCompletedJobs.text = completed.toString()
 
-                recyclerView.adapter = StaffJobsAdapter(jobList) { bookingId ->
-                    val intent = Intent(this, StaffJobDetailsActivity::class.java)
-                    intent.putExtra("bookingId", bookingId)
-                    startActivity(intent)
-                }
+                recyclerView.adapter = StaffJobsAdapter(
+                    list = jobList,
+                    onDetailsClick = { bookingId ->
+                        val intent = Intent(this, StaffJobDetailsActivity::class.java)
+                        intent.putExtra("bookingId", bookingId)
+                        startActivity(intent)
+                    },
+                    onUpdateClick = { bookingId ->
+                        val intent = Intent(this, UpdateJobStatusActivity::class.java)
+                        intent.putExtra("bookingId", bookingId)
+                        startActivity(intent)
+                    },
+                    onDeleteClick = { bookingId, serviceName ->
+                        confirmAndDeleteJob(bookingId, serviceName)
+                    }
+                )
             } else {
                 tvEmpty.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
@@ -99,6 +121,37 @@ class StaffDashboardActivity : AppCompatActivity() {
                 tvCompletedJobs.text = "0"
             }
         }
+    }
+
+    private fun confirmAndDeleteJob(bookingId: String, serviceName: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Delete Job")
+            .setMessage("Are you sure you want to delete '$serviceName'? This action cannot be undone.")
+            .setPositiveButton("Delete") { _, _ ->
+                deleteJobFromFirestore(bookingId)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun deleteJobFromFirestore(bookingId: String) {
+        db.collection("bookings").document(bookingId).delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Job deleted successfully!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                // Fallback check by bookingId field
+                db.collection("bookings").whereEqualTo("bookingId", bookingId).get()
+                    .addOnSuccessListener { query ->
+                        for (doc in query.documents) {
+                            doc.reference.delete()
+                        }
+                        Toast.makeText(this, "Job deleted successfully!", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed to delete job: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
     }
 }
 
@@ -113,15 +166,19 @@ data class BookingModel(
 
 class StaffJobsAdapter(
     private val list: List<BookingModel>,
-    private val onClick: (String) -> Unit
+    private val onDetailsClick: (String) -> Unit,
+    private val onUpdateClick: (String) -> Unit,
+    private val onDeleteClick: (String, String) -> Unit
 ) : RecyclerView.Adapter<StaffJobsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvService: TextView = view.findViewById(R.id.tvItemService)
         val tvClient: TextView = view.findViewById(R.id.tvItemClient)
+        val tvDateTime: TextView = view.findViewById(R.id.tvItemDateTime)
         val tvStatus: TextView = view.findViewById(R.id.tvItemStatus)
         val btnDetails: Button = view.findViewById(R.id.btnItemDetails)
         val btnUpdate: Button = view.findViewById(R.id.btnItemUpdateStatus)
+        val btnDelete: Button = view.findViewById(R.id.btnItemDelete)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -132,12 +189,39 @@ class StaffJobsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.tvService.text = item.serviceName
-        holder.tvClient.text = item.clientName
-        holder.tvStatus.text = item.status
+        holder.tvClient.text = "Client: ${item.clientName}"
+        holder.tvDateTime.text = "📅 ${item.date}"
 
-        holder.btnDetails.setOnClickListener { onClick(item.id) }
-        holder.btnUpdate.setOnClickListener { onClick(item.id) }
-        holder.itemView.setOnClickListener { onClick(item.id) }
+        val status = item.status
+        holder.tvStatus.text = status
+
+        when {
+            status.equals("Pending", true) || status.equals("Booked", true) -> {
+                holder.tvStatus.setTextColor(0xFFD97706.toInt())
+                holder.tvStatus.setBackgroundColor(0xFFFEF3C7.toInt())
+            }
+            status.equals("Staff Assigned", true) -> {
+                holder.tvStatus.setTextColor(0xFF2563EB.toInt())
+                holder.tvStatus.setBackgroundColor(0xFFDBEAFE.toInt())
+            }
+            status.equals("Cleaning In Progress", true) -> {
+                holder.tvStatus.setTextColor(0xFF7C3AED.toInt())
+                holder.tvStatus.setBackgroundColor(0xFFF3E8FF.toInt())
+            }
+            status.equals("Completed", true) || status.equals("Done", true) -> {
+                holder.tvStatus.setTextColor(0xFF16A34A.toInt())
+                holder.tvStatus.setBackgroundColor(0xFFDCFCE7.toInt())
+            }
+            else -> {
+                holder.tvStatus.setTextColor(0xFF475569.toInt())
+                holder.tvStatus.setBackgroundColor(0xFFF1F5F9.toInt())
+            }
+        }
+
+        holder.btnDetails.setOnClickListener { onDetailsClick(item.id) }
+        holder.btnUpdate.setOnClickListener { onUpdateClick(item.id) }
+        holder.btnDelete.setOnClickListener { onDeleteClick(item.id, item.serviceName) }
+        holder.itemView.setOnClickListener { onDetailsClick(item.id) }
     }
 
     override fun getItemCount() = list.size

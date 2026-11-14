@@ -8,5 +8,6 @@ data class User(
     val email: String = "",
     val role: String = "customer", // options: "customer", "staff", "admin"
     val phoneNumber: String = "",
+    val phone: String = "",
     val createdAt: Long = System.currentTimeMillis()
 )

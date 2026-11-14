@@ -20,15 +20,47 @@ class BookingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookings)
-        BottomNavigationHelper.attach(this, "Bookings")
+
 
         container = findViewById(R.id.containerCustomerBookings)
         val currentUserId = auth.currentUser?.uid
+
+
+        val btnNavHome = findViewById<Button>(R.id.navBtnHome)
+        val btnNavBook = findViewById<Button>(R.id.navBtnBook)
+        val btnNavTrack = findViewById<Button>(R.id.navBtnTrack)
+        val btnNavProfile = findViewById<Button>(R.id.navBtnProfile)
+
+        // Highlight active Book tab in light blue
+        btnNavHome?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavBook?.setTextColor(0xFF93C5FD.toInt())
+        btnNavTrack?.setTextColor(0xFFFFFFFF.toInt())
+        btnNavProfile?.setTextColor(0xFFFFFFFF.toInt())
 
         if (currentUserId != null) {
             loadCustomerBookings(currentUserId)
         } else {
             showEmpty("Please log in to view your bookings.")
+        }
+        btnNavHome?.setOnClickListener {
+            startActivity(Intent(this, DasboardActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavBook?.setOnClickListener {
+            startActivity(Intent(this, ServicesActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavTrack?.setOnClickListener {
+            startActivity(Intent(this, TrackBookingActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
+        }
+        btnNavProfile?.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            })
         }
     }
 

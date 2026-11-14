@@ -14,4 +14,9 @@
 
     <color name="staff_green">#15803D</color>
     <color name="staff_green_light">#DCFCE7</color>
+
+    <color name="input_bg">#F1F5F9</color>
+    <color name="input_stroke">#CBD5E1</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
 </resources>

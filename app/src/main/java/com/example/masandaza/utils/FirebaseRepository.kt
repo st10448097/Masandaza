@@ -34,10 +34,11 @@ class FirebaseRepository {
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        val docRef = db.collection("bookings").document()
-        val bookingWithId = booking.copy(bookingId = docRef.id)
+        val docId = if (booking.bookingId.isNotBlank()) booking.bookingId else db.collection("bookings").document().id
+        val bookingWithId = booking.copy(bookingId = docId)
 
-        docRef.set(bookingWithId)
+        db.collection("bookings").document(docId)
+            .set(bookingWithId)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { e -> onFailure(e) }
     }
