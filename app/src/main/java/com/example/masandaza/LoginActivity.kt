@@ -26,16 +26,19 @@ class LoginActivity : AppCompatActivity() {
         val tvRegister = findViewById<TextView>(R.id.tvGoToRegister)
 
         btnSubmit.setOnClickListener {
-            val rawEmail = etEmail.text.toString()
+            val inputEmail = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
 
-            val emailValidation = ValidationUtils.validateEmailDetailed(rawEmail)
-            val normalizedEmail = ValidationUtils.normalizeEmail(rawEmail)
-
-            if (rawEmail.isBlank() || password.isBlank()) {
+            if (inputEmail.isBlank() || password.isBlank()) {
                 Toast.makeText(this, "Please fill in email and password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            // Support typing "admin" as shortcut for "admin@masandaza.com"
+            val rawEmail = if (inputEmail.lowercase() == "admin") "admin@masandaza.com" else inputEmail
+
+            val emailValidation = ValidationUtils.validateEmailDetailed(rawEmail)
+            val normalizedEmail = ValidationUtils.normalizeEmail(rawEmail)
 
             if (emailValidation is ValidationUtils.EmailValidationResult.Invalid) {
                 etEmail.error = emailValidation.reason
@@ -51,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
                     val firebaseUser = result.user
                     val userEmail = firebaseUser?.email ?: normalizedEmail
 
-                    // EMERGENCY OVERRIDE: Force staff dashboard for admin email immediately
+                    // Override: Force staff dashboard for admin email immediately
                     if (userEmail.lowercase() == "admin@masandaza.com") {
                         val intent = Intent(this, StaffDashboardActivity::class.java)
                         startActivity(intent)
@@ -59,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                         return@addOnSuccessListener
                     }
 
-                    // Standard Firestore check for other users
+                    // Standard Firestore check for user role
                     val uid = firebaseUser?.uid ?: ""
                     db.collection("users").document(uid).get()
                         .addOnSuccessListener { doc ->
@@ -71,11 +74,10 @@ class LoginActivity : AppCompatActivity() {
                                 } else {
                                     startActivity(Intent(this, DasboardActivity::class.java))
                                 }
-                                finish()
                             } else {
                                 startActivity(Intent(this, DasboardActivity::class.java))
-                                finish()
                             }
+                            finish()
                         }
                         .addOnFailureListener {
                             startActivity(Intent(this, DasboardActivity::class.java))
